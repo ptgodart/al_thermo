@@ -1,5 +1,6 @@
 %loads matricies of [temp,H] for al2o3 and aloh3
 %data ranges from temps 300k-600k in increments of 10k
+addpath('data');
 H_al2o3_different_temperatures;
 H_aloh3_different_temperatures;
 H_alooh_different_temperatures;
