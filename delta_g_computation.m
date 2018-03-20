@@ -26,7 +26,7 @@ v_oxyhydroxide = 1/3010;                % m^3/kg
 v_oxide = 1/3950;                       % m^3/kg
 v_water = 1/1000;                       % m^3/kg
 v_al = 1/2700;                          % m^3/kg
-%git test
+
 % Reaction 1: 2Al + 6H2O ==> 2Al(OH)3 + 3H2
 % Reaction 2: 2Al + 4H2O ==> 2AlO(OH) + 3H2
 % Reaction 3: 2Al + 3H2O ==> Al2O3 + 3H2
