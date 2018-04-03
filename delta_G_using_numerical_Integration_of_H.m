@@ -4,8 +4,9 @@ addpath('data');
 H_al2o3_different_temperatures;
 H_aloh3_different_temperatures;
 H_alooh_different_temperatures;
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%Al2O3: 
+
+%%
+% Al2O3: 
 G_al2o3 = zeros(length(H_al2o3),2);
 G_al2o3(1) = -1582; %STP value of G_Al2O3 [kj/mol]
 
@@ -20,8 +21,8 @@ for x  = 2:length(H_al2o3)
     G_al2o3(x-1,2) = (G_al2o3(x-1)*(T_b/T_a) + G); 
 end
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%Al(OH)3: 
+%%
+% Al(OH)3: 
 
 G_aloh3 = zeros(length(H_al2o3),2);
 G_aloh3(1) = -1305; %%STP value of G_Al(OH)3 [kj/mol] 
@@ -37,7 +38,8 @@ for x  = 2:length(H_al2o3)
     G_aloh3(x-1,2) = (G_aloh3(x-1)*(T_b/T_a) + G);
 end 
 
-%AlOOH: 
+%%
+% AlOOH: 
 
 G_alooh = zeros(length(H_alooh),2);
 G_alooh(1) = -918; %%STP value of G_AlOOH [kj/mol] 
