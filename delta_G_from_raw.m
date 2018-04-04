@@ -6,7 +6,7 @@ al2o3_raw_path = "al2o3_nasa_raw.csv";
 h2_raw_path = "h2_nasa_raw.csv";
 h2o_raw_path = "h2o_nasa_raw.csv";
 
-% Table gives values as -(G-H298)/T, so multiply through by T, multiple
+% Table gives values as -(G-H298)/T, so multiply through by T, multiply
 % through by -1, and add H298 (which is column 6 minus column 3)
 al_raw_data = csvread(al_raw_path, 2, 0);
 H298_al = 1000 * (al_raw_data(1, 6) - al_raw_data(1, 3));
