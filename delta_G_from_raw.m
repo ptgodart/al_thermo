@@ -7,11 +7,12 @@ h2_raw_path = "h2_nasa_raw.csv";
 h2o_raw_path = "h2o_nasa_raw.csv";
 
 % Table gives values as -(G-H298)/T, so multiply through by T, multiply
-% through by -1, and add H298 (which is column 6 minus column 3)
+% through by -1, and add H298 (which is column 6 minus column 3). Units are
+% listed in table.
 al_raw_data = csvread(al_raw_path, 2, 0);
-H298_al = 1000 * (al_raw_data(1, 6) - al_raw_data(1, 3));
-T_al = al_raw_data(:, 1);
-G_al = (al_raw_data(:, 5) * -1 .* T_al) + H298_al;
+H298_al = 1000 * (al_raw_data(1, 6) - al_raw_data(1, 3)); % J/mol
+T_al = al_raw_data(:, 1); % K
+G_al = (al_raw_data(:, 5) * -1 .* T_al) + H298_al; % J/mol
 
 alooh_raw_data = csvread(alooh_raw_path, 2, 0);
 H298_alooh = 1000 * (alooh_raw_data(1, 6) - alooh_raw_data(1, 3));
@@ -42,7 +43,6 @@ range = 60;
 
 %% Al2O3 Reaction
 % 2Al + 3H2O ==> Al2O3 + 3H2
-
 T_al2o3_rxn = zeros(range, 1);
 G_al2o3_rxn = zeros(range, 1);
 for t = 1:range
@@ -52,7 +52,6 @@ end
 
 %% AlO(OH) Reaction
 % 2Al + 4H2O ==> 2AlO(OH) + 3H2
-
 T_alooh_rxn = zeros(range, 1);
 G_alooh_rxn = zeros(range, 1);
 for t = 1:range
@@ -63,7 +62,6 @@ end
 
 %% Al(OH)3 Reaction
 % 2Al + 6H2O ==> 2Al(OH)3 + 3H2
-
 T_aloh3_rxn = zeros(range, 1);
 G_aloh3_rxn = zeros(range, 1);
 for t = 1:range
@@ -72,7 +70,6 @@ for t = 1:range
 end
 
 %% Plotting
-
 figure(1);
 clf;
 hold on;
