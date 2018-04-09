@@ -11,7 +11,7 @@ H_h2o_different_temperatures;
 
 G_h2o = zeros(length(H_h2o),2);
 G_h2o(1,1) = 300;
-G_h2o(1,2) = -237 %%STP value of G_h2o [kj/mol] 
+G_h2o(1,2) = -237; %%STP value of G_h2o [kj/mol] 
 
 %calculate gibbs for Al at different temps:
 for x  = 2:length(H_h2o)
