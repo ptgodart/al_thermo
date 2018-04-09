@@ -27,6 +27,8 @@ v_oxide = 1/3950;                       % m^3/kg
 v_water = 1/1000;                       % m^3/kg
 v_al = 1/2700;                          % m^3/kg
 
+delta_G_using_numerical_Integration_of_H;
+
 % Reaction 1: 2Al + 6H2O ==> 2Al(OH)3 + 3H2
 % Reaction 2: 2Al + 4H2O ==> 2AlO(OH) + 3H2
 % Reaction 3: 2Al + 3H2O ==> Al2O3 + 3H2
@@ -81,10 +83,11 @@ v_al = 1/2700;                          % m^3/kg
 for i=1:size(G_aloh3, 1)
     T = G_aloh3(i,1);
     delta_G_hydroxide = G_aloh3(i,2);
-    delta_G_water = T*(delta_g_0_water/T_0 + ...
-        delta_h_0_water*(1/T + 1/T_0)) + v_water*(P_rxn - P_0);
+    delta_G_water = G_h2o(i,2)
+    %T*(delta_g_0_water/T_0 + ...
+    %    delta_h_0_water*(1/T + 1/T_0)) + v_water*(P_rxn - P_0);
     delta_G_al = T*(delta_g_0_al/T_0 + ...
-        delta_h_0_al*(1/T + 1/T_0)) + v_al*(P_rxn - P_0);
+        delta_h_0_al*(1/T + 1/T_0)) + v_al*(P_rxn - P_0)
     
     % Using ideal gas relation for H2:
     delta_G_h2 = T*(delta_g_0_hydrogen/T_0 + ...
@@ -104,8 +107,9 @@ end
 for i=1:size(G_alooh, 1)
     T = G_alooh(i,1);
     delta_G_oxyhydroxide = G_alooh(i,2);
-    delta_G_water = T*(delta_g_0_water/T_0 + ...
-        delta_h_0_water*(1/T + 1/T_0)) + v_water*(P_rxn - P_0);
+    delta_G_water = G_h2o(i,2)
+    %T*(delta_g_0_water/T_0 + ...
+    %    delta_h_0_water*(1/T + 1/T_0)) + v_water*(P_rxn - P_0);
     delta_G_al = T*(delta_g_0_al/T_0 + ...
         delta_h_0_al*(1/T + 1/T_0)) + v_al*(P_rxn - P_0);
     
@@ -127,8 +131,9 @@ end
 for i=1:size(G_al2o3, 1)
     T = G_al2o3(i,1);
     delta_G_oxide = G_al2o3(i,2);
-    delta_G_water = T*(delta_g_0_water/T_0 + ...
-        delta_h_0_water*(1/T + 1/T_0)) + v_water*(P_rxn - P_0);
+    delta_G_water = G_h2o(i,2); 
+    %T*(delta_g_0_water/T_0 + ...
+    %    delta_h_0_water*(1/T + 1/T_0)) + v_water*(P_rxn - P_0);
     delta_G_al = T*(delta_g_0_al/T_0 + ...
         delta_h_0_al*(1/T + 1/T_0)) + v_al*(P_rxn - P_0);
     
