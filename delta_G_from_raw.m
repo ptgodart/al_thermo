@@ -52,6 +52,7 @@ end
 
 %% AlO(OH) Reaction
 % 2Al + 4H2O ==> 2AlO(OH) + 3H2
+% Note: this is from NASA thermo builder but only for gaseous alooh
 T_alooh_rxn = zeros(range, 1);
 G_alooh_rxn = zeros(range, 1);
 for t = 1:range
@@ -96,5 +97,5 @@ plot(T_aloh3_rxn - 274.15, G_aloh3_rxn);
 %plot(T_alooh_rxn - 274.15, G_alooh_rxn);
 plot(T_al2o3_rxn - 274.15, G_al2o3_rxn);
 plot(T_alooh_paper_rxn - 274.15, G_alooh_paper_rxn_1);
-plot(T_alooh_paper_rxn - 274.15, G_alooh_paper_rxn_2);
-legend('Hydroxide', 'Oxide', 'Oxyhydroxide - paper (free energy)', 'Oxyhydroxide - paper (converted)');
+%plot(T_alooh_paper_rxn - 274.15, G_alooh_paper_rxn_2);
+legend('Hydroxide', 'Oxide', 'Oxyhydroxide - paper (converted)', 'Oxyhydroxide - paper (from table)');
