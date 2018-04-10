@@ -78,6 +78,7 @@ end
 delta_g_3 = delta_g_al2o3 + 3*delta_g_h2 - 2*delta_g_al - 3*delta_g_h2o;
 
 %% Getting more data
+% Fit each delta_g_n with 2nd order polynomial
 T_fit = 300:10:800;
 % Reaction 1
 delta_g_1_pfit_coeffs = polyfit(T, delta_g_1, 2);
