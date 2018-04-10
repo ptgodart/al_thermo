@@ -56,7 +56,6 @@ end
 T_alooh_rxn = zeros(range, 1);
 G_alooh_rxn = zeros(range, 1);
 for t = 1:range
-    temp = T_alooh(t);
     T_alooh_rxn(t) = T_alooh(t);
     G_alooh_rxn(t) = 3*G_h2(t) + 2*G_alooh(t) - 2*G_al(t) - 4*G_h2o(t);
 end
@@ -83,7 +82,6 @@ T_alooh_paper_rxn = zeros(7,1);
 G_alooh_paper_rxn_1 = zeros(7,1);
 G_alooh_paper_rxn_2 = zeros(7,1);
 for t = 1:7
-    temp = T_alooh_paper(t);
     T_alooh_paper_rxn(t) = T_alooh_paper(t);
     G_alooh_paper_rxn_1(t) = 3*G_h2(t) + 2*G_alooh_paper(t) - 2*G_al(t) - 4*G_h2o(t);
     G_alooh_paper_rxn_2(t) = 3*G_h2(t) + 2*G_alooh_paper_raw(t) - 2*G_al(t) - 4*G_h2o(t);
