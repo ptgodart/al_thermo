@@ -76,6 +76,18 @@ end
 % REACTION 3: 2Al + 3H2O ==> Al2O3 + 3H2
 delta_g_3 = delta_g_al2o3 + 3*delta_g_h2 - 2*delta_g_al - 3*delta_g_h2o;
 
+%% Getting more data
+T_fit = 300:10:800;
+% Reaction 1
+delta_g_1_pfit_coeffs = polyfit(T, delta_g_1, 2);
+delta_g_1_pfit = polyval(delta_g_1_pfit_coeffs, T_fit);
+% Reaction 2
+delta_g_2_pfit_coeffs = polyfit(T_alooh, delta_g_2, 2);
+delta_g_2_pfit = polyval(delta_g_2_pfit_coeffs, T_fit);
+% Reaction 3
+delta_g_3_pfit_coeffs = polyfit(T, delta_g_3, 2);
+delta_g_3_pfit = polyval(delta_g_3_pfit_coeffs, T_fit);
+
 %% Plotting
 figure;
 clf;
@@ -84,4 +96,18 @@ T = al_raw_data(:, 1);
 plot(T-273.15, delta_g_1);
 plot(T_alooh-273.15, delta_g_2);
 plot(T-273.15, delta_g_3);
-legend('Al(OH)_3', 'AlO(OH)', 'Al_2O_3');
+legend({'Al(OH)_3', 'AlO(OH)', 'Al_2O_3'}, 'FontSize', 12);
+xlabel('Temperature [ºC]', 'FontSize', 14);
+ylabel('Gibbs Free Energy [J/mol-ºC]', 'FontSize', 14);
+title('Gibbs Free Energy For Different Al-Water Reactions', 'FontSize', 16);
+% Plot fitted as well
+figure;
+clf;
+hold on;
+plot(T_fit-237.15, delta_g_1_pfit);
+plot(T_fit-237.15, delta_g_2_pfit);
+plot(T_fit-237.15, delta_g_3_pfit);
+legend({'Al(OH)_3', 'AlO(OH)', 'Al_2O_3'}, 'FontSize', 12);
+xlabel('Temperature [ºC]', 'FontSize', 14);
+ylabel('Extrapolated Gibbs Free Energy [J/mol-ºC]', 'FontSize', 14);
+title('Extrapolated Gibbs Free Energy For Different Al-Water Reactions', 'FontSize', 16);
