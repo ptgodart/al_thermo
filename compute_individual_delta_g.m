@@ -59,7 +59,6 @@ delta_g_h2 = zeros(size(T));
 delta_g_al = delta_g_al + v_al*(P_rxn - P_0);
 delta_g_h2 = delta_g_h2 + R*h2_raw_data(:,1)*log(P_rxn/P_0);
 
-
 %% Reactions
 % REACTION 1: 2Al + 6H2O ==> 2Al(OH)3 + 3H2
 delta_g_1 = 2*delta_g_aloh3 + 3*delta_g_h2 - 2*delta_g_al - 6*delta_g_h2o;
