@@ -117,7 +117,7 @@ for i=1:size(G_alooh, 1)
     %    delta_h_0_al*(1/T + 1/T_0)) + v_al*(P_rxn - P_0);
     
     % Using ideal gas relation for H2:
-    delta_G_h2 = G_h2(i,2) + R*T*log(P_rxn/P_0);
+    delta_G_h2 = G_h2(i*4,2) + R*T*log(P_rxn/P_0);
     %T*(delta_g_0_hydrogen/T_0 + ...
     %    delta_h_0_hydrogen*(1/T + 1/T_0)) + R*T*log(P_rxn/P_0);
     
