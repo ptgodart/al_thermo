@@ -86,12 +86,14 @@ for i=1:size(G_aloh3, 1)
     delta_G_water = G_h2o(i,2);
     %T*(delta_g_0_water/T_0 + ...
     %    delta_h_0_water*(1/T + 1/T_0)) + v_water*(P_rxn - P_0);
-    delta_G_al = T*(delta_g_0_al/T_0 + ...
-        delta_h_0_al*(1/T + 1/T_0)) + v_al*(P_rxn - P_0);
+    delta_G_al = G_al(i,2);
+    %T*(delta_g_0_al/T_0 + ...
+    %    delta_h_0_al*(1/T + 1/T_0)) + v_al*(P_rxn - P_0);
     
     % Using ideal gas relation for H2:
-    delta_G_h2 = T*(delta_g_0_hydrogen/T_0 + ...
-        delta_h_0_hydrogen*(1/T + 1/T_0)) + R*T*log(P_rxn/P_0);
+    delta_G_h2 = G_h2(i,2) + R*T*log(P_rxn/P_0);
+    %T*(delta_g_0_hydrogen/T_0 + ...
+    %    delta_h_0_hydrogen*(1/T + 1/T_0)) 
     
     % Reaction 1 (apply stoich ratios)
     delta_G_products_1 = 2*delta_G_hydroxide + 3*delta_G_h2;
@@ -110,12 +112,14 @@ for i=1:size(G_alooh, 1)
     delta_G_water = G_h2o(i*4,2);
     %T*(delta_g_0_water/T_0 + ...
     %    delta_h_0_water*(1/T + 1/T_0)) + v_water*(P_rxn - P_0);
-    delta_G_al = T*(delta_g_0_al/T_0 + ...
-        delta_h_0_al*(1/T + 1/T_0)) + v_al*(P_rxn - P_0);
+    delta_G_al = G_al(i*4,2);
+    %T*(delta_g_0_al/T_0 + ...
+    %    delta_h_0_al*(1/T + 1/T_0)) + v_al*(P_rxn - P_0);
     
     % Using ideal gas relation for H2:
-    delta_G_h2 = T*(delta_g_0_hydrogen/T_0 + ...
-        delta_h_0_hydrogen*(1/T + 1/T_0)) + R*T*log(P_rxn/P_0);
+    delta_G_h2 = G_h2(i,2) + R*T*log(P_rxn/P_0);
+    %T*(delta_g_0_hydrogen/T_0 + ...
+    %    delta_h_0_hydrogen*(1/T + 1/T_0)) + R*T*log(P_rxn/P_0);
     
     % Reaction 2 (apply stoich ratios)
     delta_G_products_2 = 2*delta_G_oxyhydroxide + 3*delta_G_h2;
@@ -134,12 +138,14 @@ for i=1:size(G_al2o3, 1)
     delta_G_water = G_h2o(i,2); 
     %T*(delta_g_0_water/T_0 + ...
     %    delta_h_0_water*(1/T + 1/T_0)) + v_water*(P_rxn - P_0);
-    delta_G_al = T*(delta_g_0_al/T_0 + ...
-        delta_h_0_al*(1/T + 1/T_0)) + v_al*(P_rxn - P_0);
+    delta_G_al = G_al(i,2);
+    %T*(delta_g_0_al/T_0 + ...
+    %    delta_h_0_al*(1/T + 1/T_0)) + v_al*(P_rxn - P_0);
     
     % Using ideal gas relation for H2:
-    delta_G_h2 = T*(delta_g_0_hydrogen/T_0 + ...
-        delta_h_0_hydrogen*(1/T + 1/T_0)) + R*T*log(P_rxn/P_0);
+    delta_G_h2 = G_h2(i,2) + R*T*log(P_rxn/P_0);
+    %T*(delta_g_0_hydrogen/T_0 + ...
+    %    delta_h_0_hydrogen*(1/T + 1/T_0)) + R*T*log(P_rxn/P_0);
     
     % Reaction 3 (apply stoich ratios)
     delta_G_products_3 = delta_G_oxide + 3*delta_G_h2;
