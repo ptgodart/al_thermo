@@ -25,6 +25,7 @@ h2o_raw_data = csvread('h2o_nasa_raw.csv', 2, 0);
 aloh3_raw_data = csvread('aloh3_nasa_raw.csv', 2, 0);
 % (DEAL WITH THIS LATER) alooh_raw_data = csvread('alooh_nasa_raw.csv', 2, 0);
 al2o3_raw_data = csvread('al2o3_nasa_raw.csv', 2, 0);
+T = al_raw_data(:, 1);
 
 %% Base elements - G(T)
 % Column 6 is -(G-H298)/T, so convert
