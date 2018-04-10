@@ -3,18 +3,18 @@
 % Al, O2, H2. These raw values from 300-600 K are in data folder
 
 %% Reaction Conditions / Constants
-T_rxn = 473.15; % K
-T_0 = 298.15;   % K
-P_rxn = 6.9E+6; % Pa
-P_0 = 101325;   % Pa
+T_rxn = 473.15;         % K
+T_0 = 298.15;           % K
+P_rxn = 6.9E+6;         % Pa
+P_0 = 101325;           % Pa
 
-R = 8.314;      % J/(mol K)
+R = 8.314;              % J/(mol K)
 
-v_aloh3 = 1/2420;                % m^3/kg
-v_alooh = 1/3010;                % m^3/kg
-v_al2o3 = 1/3950;                % m^3/kg
-v_h2o = 1/1000;                  % m^3/kg
-v_al = 1/2700;                   % m^3/kg
+v_aloh3 = 1/2420;       % m^3/kg
+v_alooh = 1/3010;       % m^3/kg
+v_al2o3 = 1/3950;       % m^3/kg
+v_h2o = 1/1000;         % m^3/kg
+v_al = 1/2700;          % m^3/kg
 
 %% Data
 addpath('data');
