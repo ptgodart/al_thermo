@@ -2,6 +2,20 @@
 % So for the various reactions, need to read Al(OH)3, AlO(OH), Al2O3, H2O,
 % Al, O2, H2. These raw values from 300-600 K are in data folder
 
+%% Reaction Conditions / Constants
+T_rxn = 473.15; % K
+T_0 = 298.15;   % K
+P_rxn = 6.9E+6; % Pa
+P_0 = 101325;   % Pa
+
+R = 8.314;      % J/(mol K)
+
+v_aloh3 = 1/2420;                % m^3/kg
+v_alooh = 1/3010;                % m^3/kg
+v_al2o3 = 1/3950;                % m^3/kg
+v_h2o = 1/1000;                  % m^3/kg
+v_al = 1/2700;                   % m^3/kg
+
 %% Data
 addpath('data');
 al_raw_data = csvread('al_nasa_raw.csv', 2, 0);
@@ -31,10 +45,19 @@ delta_g_aloh3 = g_aloh3 - g_al - 3/2*g_o2 - 3/2*g_h2;
 delta_g_alooh = 1E3.*[-917.916 -904.720 -891.595 -878.351 -865.153 -851.917 -838.740]';
 T_alooh = [300 350 400 450 500 550 600]';
 delta_g_h2o = g_h2o - g_h2 - 1/2*g_o2;
+% Apply effect of pressure
+delta_g_al2o3 = delta_g_al2o3 + v_al2o3*(P_rxn - P_0);
+delta_g_aloh3 = delta_g_aloh3 + v_aloh3*(P_rxn - P_0);
+delta_g_alooh = delta_g_alooh + v_alooh*(P_rxn - P_0);
+delta_g_h2o = delta_g_h2o + v_h2o*(P_rxn - P_0);
 
 %% Elements - delta_G(T)
 delta_g_al = zeros(size(T));
 delta_g_h2 = zeros(size(T));
+% Apply effect of pressure
+delta_g_al = delta_g_al + v_al*(P_rxn - P_0);
+delta_g_h2 = delta_g_h2 + R*h2_raw_data(:,1)*log(P_rxn/P_0);
+
 
 %% Reactions
 % REACTION 1: 2Al + 6H2O ==> 2Al(OH)3 + 3H2
@@ -58,7 +81,7 @@ figure;
 clf;
 hold on;
 T = al_raw_data(:, 1);
-plot(T, delta_g_1);
-plot(T_alooh, delta_g_2);
-plot(T, delta_g_3);
+plot(T-273.15, delta_g_1);
+plot(T_alooh-273.15, delta_g_2);
+plot(T-273.15, delta_g_3);
 legend('Al(OH)_3', 'AlO(OH)', 'Al_2O_3');
