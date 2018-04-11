@@ -5,6 +5,7 @@
 %% Reaction Conditions / Constants
 T_rxn = 473.15;         % K
 T_0 = 298.15;           % K
+%P_rxn = 137895.146;
 P_rxn = 6.9E+6;         % Pa
 P_0 = 101325;           % Pa
 
@@ -15,6 +16,12 @@ v_alooh = 1/3010;       % m^3/kg
 v_al2o3 = 1/3950;       % m^3/kg
 v_h2o = 1/1000;         % m^3/kg
 v_al = 1/2700;          % m^3/kg
+
+%% For pressure iteration
+P_start = P_0;
+P_end = 1E+7; % Pa
+P_steps = 100;
+P = linspace(P_start, P_end, P_steps);
 
 %% Data
 addpath('data');
@@ -46,29 +53,29 @@ delta_g_aloh3 = g_aloh3 - g_al - 3/2*g_o2 - 3/2*g_h2;
 delta_g_alooh = 1E3.*[-917.916 -904.720 -891.595 -878.351 -865.153 -851.917 -838.740]';
 T_alooh = [300 350 400 450 500 550 600]';
 delta_g_h2o = g_h2o - g_h2 - 1/2*g_o2;
-% Apply effect of pressure
-delta_g_al2o3 = delta_g_al2o3 + v_al2o3*(P_rxn - P_0);
-delta_g_aloh3 = delta_g_aloh3 + v_aloh3*(P_rxn - P_0);
-delta_g_alooh = delta_g_alooh + v_alooh*(P_rxn - P_0);
-delta_g_h2o = delta_g_h2o + v_h2o*(P_rxn - P_0);
+% Apply effect of pressure over P range
+delta_g_al2o3 = delta_g_al2o3 + v_al2o3*(P - P_0);
+delta_g_aloh3 = delta_g_aloh3 + v_aloh3*(P - P_0);
+delta_g_alooh = delta_g_alooh + v_alooh*(P - P_0);
+delta_g_h2o = delta_g_h2o + v_h2o*(P - P_0);
 
 %% Elements - delta_G(T)
 delta_g_al = zeros(size(T));
 delta_g_h2 = zeros(size(T));
 % Apply effect of pressure
-delta_g_al = delta_g_al + v_al*(P_rxn - P_0);
-delta_g_h2 = delta_g_h2 + R*h2_raw_data(:,1)*log(P_rxn/P_0);
+delta_g_al = delta_g_al + v_al*(P - P_0);
+delta_g_h2 = delta_g_h2 + R*h2_raw_data(:,1)*log(P/P_0);
 
 %% Reactions
 % REACTION 1: 2Al + 6H2O ==> 2Al(OH)3 + 3H2
 delta_g_1 = 2*delta_g_aloh3 + 3*delta_g_h2 - 2*delta_g_al - 6*delta_g_h2o;
 % REACTION 2: 2Al + 4H2O ==> 2AlO(OH) + 3H2
-delta_g_2 = zeros(size(T_alooh));
+delta_g_2 = zeros(numel(T_alooh), numel(P));
 for i = 1:numel(T_alooh) % Deal with fact that alooh data is sparse
     temp = T_alooh(i);
     for j = 1:numel(T)
         if T(j) == temp
-            delta_g_2(i, 1) = 2*delta_g_alooh(i) + 3*delta_g_h2(j) - 2*delta_g_al(j) - 4*delta_g_h2o(j);
+            delta_g_2(i, :) = 2*delta_g_alooh(i, :) + 3*delta_g_h2(j, :) - 2*delta_g_al(j, :) - 4*delta_g_h2o(j, :);
             break;
         end
     end
@@ -78,39 +85,92 @@ delta_g_3 = delta_g_al2o3 + 3*delta_g_h2 - 2*delta_g_al - 3*delta_g_h2o;
 
 %% Getting more data
 % Fit each delta_g_n with 2nd order polynomial
-T_fit = 300:10:800;
+P_index = round(P_rxn/P_end*P_steps);
+T_fit = 273:10:800;
 % Reaction 1
-delta_g_1_pfit_coeffs = polyfit(T, delta_g_1, 2);
+delta_g_1_pfit_coeffs = polyfit(T, delta_g_1(:, P_index), 2);
 delta_g_1_pfit = polyval(delta_g_1_pfit_coeffs, T_fit);
 % Reaction 2
-delta_g_2_pfit_coeffs = polyfit(T_alooh, delta_g_2, 2);
+delta_g_2_pfit_coeffs = polyfit(T_alooh, delta_g_2(:, P_index), 2);
 delta_g_2_pfit = polyval(delta_g_2_pfit_coeffs, T_fit);
 % Reaction 3
-delta_g_3_pfit_coeffs = polyfit(T, delta_g_3, 2);
+delta_g_3_pfit_coeffs = polyfit(T, delta_g_3(:, P_index), 2);
 delta_g_3_pfit = polyval(delta_g_3_pfit_coeffs, T_fit);
+% Fit surfaces also
+[rxn_P_1, rxn_T_1, rxn_delta_g_1] = prepareSurfaceData(P, T, delta_g_1);
+[rxn_1_surf_fit, G] = fit([rxn_P_1, rxn_T_1], rxn_delta_g_1, 'cubicinterp');
+[P_plot, T_plot] = meshgrid(P, T_fit);
+
+%% Find intersection points
+rxn_1_2_intersection = roots(delta_g_1_pfit_coeffs - delta_g_2_pfit_coeffs);
+rxn_1_2_intersection = rxn_1_2_intersection(2);
+rxn_1_3_intersection = roots(delta_g_1_pfit_coeffs - delta_g_3_pfit_coeffs);
+rxn_1_3_intersection = rxn_1_3_intersection(2);
+rxn_2_3_intersection = roots(delta_g_2_pfit_coeffs - delta_g_3_pfit_coeffs);
+rxn_2_3_intersection = rxn_2_3_intersection(2);
+
+%% Loop through pressures to find transition temps
+delta_g_1_2_transitions = zeros(size(P));
+delta_g_1_3_transitions = zeros(size(P));
+delta_g_2_3_transitions = zeros(size(P));
+for p = 1:numel(P)
+    % Polyfit
+    delta_g_1_coeffs = polyfit(T, delta_g_1(:, p), 2);
+    delta_g_2_coeffs = polyfit(T_alooh, delta_g_2(:, p), 2);
+    delta_g_3_coeffs = polyfit(T, delta_g_3(:, p), 2);
+    % Find intersections
+    delta_g_1_2_intersection = roots(delta_g_1_coeffs - delta_g_2_coeffs);
+    delta_g_1_2_transitions(p) = delta_g_1_2_intersection(2);
+    delta_g_1_3_intersection = roots(delta_g_1_coeffs - delta_g_3_coeffs);
+    delta_g_1_3_transitions(p) = delta_g_1_3_intersection(2);
+    delta_g_2_3_intersection = roots(delta_g_2_coeffs - delta_g_3_coeffs);
+    delta_g_2_3_transitions(p) = delta_g_2_3_intersection(2);
+end
 
 %% Plotting
-figure;
-clf;
+figure(1); clf;
 hold on;
 grid on;
 T = al_raw_data(:, 1);
-plot(T-273.15, delta_g_1);
-plot(T_alooh-273.15, delta_g_2);
-plot(T-273.15, delta_g_3);
+plot(T-273.15, delta_g_1(:, P_index));
+plot(T_alooh-273.15, delta_g_2(:, P_index));
+plot(T-273.15, delta_g_3(:, P_index));
 legend({'Al(OH)_3', 'AlO(OH)', 'Al_2O_3'}, 'FontSize', 12);
 xlabel('Temperature [ºC]', 'FontSize', 14);
 ylabel('Gibbs Free Energy [J/mol-ºC]', 'FontSize', 14);
-title('Gibbs Free Energy For Different Al-Water Reactions', 'FontSize', 16);
+title(['Gibbs Free Energy For Al-Water Reactions at ' num2str(P(P_index)) ' Pa'], 'FontSize', 16);
 % Plot fitted as well
-figure;
-clf;
+figure(2); clf;
 hold on;
 grid on;
 plot(T_fit-273.15, delta_g_1_pfit);
 plot(T_fit-273.15, delta_g_2_pfit);
 plot(T_fit-273.15, delta_g_3_pfit);
+xlim([0 400]);
 legend({'Al(OH)_3', 'AlO(OH)', 'Al_2O_3'}, 'FontSize', 12);
 xlabel('Temperature [ºC]', 'FontSize', 14);
 ylabel('Extrapolated Gibbs Free Energy [J/mol-ºC]', 'FontSize', 14);
-title('Extrapolated Gibbs Free Energy For Different Al-Water Reactions', 'FontSize', 16);
+title(['Extrapolated Gibbs Free Energy For Al-Water Reactions at ' num2str(P(P_index)) ' Pa'], 'FontSize', 16);
+% Plot surface
+figure(3); clf;
+hold on;
+surf_1 = surf(P,T,delta_g_1);
+surf_2 = surf(P,T_alooh,delta_g_2);
+surf_3 = surf(P,T,delta_g_3);
+xlabel('Pressure', 'FontSize', 14);
+ylabel('Temperature [ºC]', 'FontSize', 14);
+zlabel('Gibbs Free Energy', 'FontSize', 14);
+title('Gibbs Free Energy For Al-Water Reactions Over Operating Range', 'FontSize', 16);
+% Plot transitions
+figure(4); clf;
+hold on;
+plot(P, delta_g_1_2_transitions-273.15);
+plot(P, delta_g_2_3_transitions-273.15);
+%plot(P, delta_g_1_3_transitions-273.15);
+plot(P, 1730.63 ./ (8.07131 - log10(0.0075*P)) - 233.426);
+title('Predicting Aluminum-Water Reaction Byproducts', 'FontSize', 16);
+ylabel('Temperature [ºC]', 'FontSize', 14);
+xlabel('Pressure [Pa]', 'FontSize', 14);
+xlim([P_start, P_end]);
+legend({'Al(OH)_3 --> AlO(OH)', 'AlO(OH) --> Al_2O_3', 'BP of Water'}, 'FontSize', 12);
+%legend({'Al(OH)_3 --> AlO(OH)', 'AlO(OH) --> Al_2O_3', 'Al(OH)_3 --> Al_2O_3', 'BP of Water'}, 'FontSize', 12);
