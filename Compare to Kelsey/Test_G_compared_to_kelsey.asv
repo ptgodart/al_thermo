@@ -57,9 +57,9 @@ T_alooh = [300 350 400 450 500 550 600]';
 %delta_g_h2o = g_h2o - g_h2 - 1/2*g_o2;
 % Apply effect of pressure over P range
 %delta_g_al2o3 = delta_g_al2o3 + v_al2o3*(P_rxn - P_0);
-%delta_g_aloh3 = delta_g_aloh3 + v_aloh3*(P_rxn - P_0);
-%delta_g_alooh = delta_g_alooh + v_alooh*(P_rxn - P_0);
-%delta_g_h2o = delta_g_h2o + v_h2o*(P_rxn - P_0);
+%delta_g_aloh3 = delta_g_aloh3 + v_aloh3*(P - P_0);
+%delta_g_alooh = delta_g_alooh + v_alooh*(P - P_0);
+%delta_g_h2o = delta_g_h2o + v_h2o*(P - P_0);
 %%
 
 figure(1)
