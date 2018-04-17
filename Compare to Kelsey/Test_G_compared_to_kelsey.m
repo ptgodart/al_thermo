@@ -60,7 +60,7 @@ plot(T,delta_g_aloh3);
 hold on
 plot(T_alooh,delta_g_alooh);
 legend({'Al_2O_3','Al(OH)_3', 'AlO(OH)'}, 'FontSize', 12);
-title('current analysis');
+title('Current Analysis Gibbs Values');
 
 %%
 %Plot Kelsey's gibbs values over the same temperature range
@@ -82,6 +82,6 @@ plot (x,aloh3)
 hold on 
 plot (x,alooh)
 legend({'Al_2O_3','Al(OH)_3', 'AlO(OH)'}, 'FontSize', 12);
-title('Kelsey Data');
+title('Kelsey Gibbs Values');
 %%
 
