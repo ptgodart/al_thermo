@@ -9,15 +9,50 @@ peak_4c = zeros(length(hp_spec),1);
 [pks3,locs3] = findpeaks(smooth(x50c_spec,11),x50c_freq);
 [pks4,locs4] = findpeaks(smooth(x4c_spec,11),x4c_freq);
 
-peak_hp(round((locs1'-hp_freq(1))/(hp_freq(2)-hp_freq(1))),:) = 1;
-peak_100c(round((locs2'-hp_freq(1))/(hp_freq(2)-hp_freq(1))),:) = 1;
-peak_50c(round((locs3'-hp_freq(1))/(hp_freq(2)-hp_freq(1))),:) = 1;
-peak_4c(round((locs4'-hp_freq(1))/(hp_freq(2)-hp_freq(1))),:) = 1;
+% peak_hp(round((locs1'-hp_freq(1))/(hp_freq(2)-hp_freq(1))),:) = 1;
+% peak_100c(round((locs2'-hp_freq(1))/(hp_freq(2)-hp_freq(1))),:) = 1;
+% peak_50c(round((locs3'-hp_freq(1))/(hp_freq(2)-hp_freq(1))),:) = 1;
+% peak_4c(round((locs4'-hp_freq(1))/(hp_freq(2)-hp_freq(1))),:) = 1;
 
-xcorr_hp(
-xcorr_100c
-xcorr_50c
-xcorr_4c
+hp_100c_score = 0;
+hp_50c_score = 0;
+hp_4c_score = 0;
+peak_bound
+
+for i = 1:length(locs1)
+    for j = 1:length(locs2)
+        if locs1(i) > (locs2(j)-peak_bound) && locs1(i) < (locs2(j)+peak_bound)
+            hp_100c_score = hp_100c_score + 1 ;
+        end
+    end
+end
+hp_100c_score = hp_100c_score/(length(locs1)*length(locs2))
+
+for i = 1:length(locs1)
+    for j = 1:length(locs3)
+        if locs1(i) > (locs3(j)-peak_bound) && locs1(i) < (locs3(j)+peak_bound)
+            hp_50c_score = hp_50c_score + 1 ;
+        end
+    end
+end
+hp_50c_score = hp_50c_score/(length(locs1)*length(locs3))
+
+for i = 1:length(locs1)
+    for j = 1:length(locs4)
+        if locs1(i) > (locs4(j)-peak_bound) && locs1(i) < (locs4(j)+peak_bound)
+            hp_4c_score = hp_4c_score + 1 ;
+        end
+    end
+end
+hp_4c_score = hp_4c_score/(length(locs1)*length(locs4))
+
+% xcorr_hp_100c = xcorr(peak_hp,peak_100c);
+% figure(1)
+% plot(xcorr_hp_100c)
+
+%xcorr_100c
+%xcorr_50c
+%xcorr_4c
 % for i = 1:length(hp_spec)
 %     for j = 1:length(locs1)
 %         if hp_freq(i) == locs1(j)
