@@ -8,6 +8,9 @@ peak_4c = zeros(length(hp_spec),1);
 [pks2,locs2] = findpeaks(smooth(x100c_spec,21),x100c_freq);
 [pks3,locs3] = findpeaks(smooth(x50c_spec,21),x50c_freq);
 [pks4,locs4] = findpeaks(smooth(x4c_spec,21),x4c_freq);
+locs1 = [1400, 1631, 1975, 2104, 1811, 1570, 1454, 1165, 1074,405, 501, 615, 740, 885, 569, 881, 964, 3097, 3303];
+locs4 = [598, 858, 939, 1412, 1510, 1631, 2121, 3462];
+
 
 hp_100c_score = 0;
 hp_50c_score = 0;
@@ -85,8 +88,8 @@ hp_4c_score = hp_4c_score/length(locs4)
 
 figure(1)
 plot(hp_freq,hp_spec)
-hold on 
-scatter(locs1,pks1)
+%hold on 
+%scatter(locs1,pks1)
 
 figure(2)
 plot(x100c_freq,x100c_spec)
@@ -100,8 +103,8 @@ scatter(locs3,pks3)
 
 figure(4)
 plot(x4c_freq,x4c_spec)
-hold on 
-scatter(locs4,pks4)
+% hold on 
+% scatter(locs4,pks4)
 
 % figure(5)
 % scatter(locs1,pks1)
