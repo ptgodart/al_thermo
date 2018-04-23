@@ -21,7 +21,7 @@ for i = 1:length(locs1)
         end
     end
 end
-hp_100c_score = hp_100c_score/(length(locs1)*length(locs2))
+hp_100c_score = hp_100c_score/length(locs2)
 
 for i = 1:length(locs1)
     for j = 1:length(locs3)
@@ -30,7 +30,7 @@ for i = 1:length(locs1)
         end
     end
 end
-hp_50c_score = hp_50c_score/(length(locs1)*length(locs3))
+hp_50c_score = hp_50c_score/length(locs3)
 
 for i = 1:length(locs1)
     for j = 1:length(locs4)
@@ -39,7 +39,7 @@ for i = 1:length(locs1)
         end
     end
 end
-hp_4c_score = hp_4c_score/(length(locs1)*length(locs4))
+hp_4c_score = hp_4c_score/length(locs4)
 
 
 % peak_hp(round((locs1'-hp_freq(1))/(hp_freq(2)-hp_freq(1))),:) = 1;
