@@ -45,6 +45,7 @@ g_al2o3 = -1 * al2o3_raw_data(:, 5) .* al2o3_raw_data(:, 1) + 1E3*(al2o3_raw_dat
 g_aloh3 = -1 * aloh3_raw_data(:, 5) .* aloh3_raw_data(:, 1) + 1E3*(aloh3_raw_data(1, 6) - aloh3_raw_data(1, 3));
 % (DEAL WITH THIS LATER) g_alooh = -1 * alooh_raw_data(:, 5) .* alooh_raw_data(:, 1) + 1E3*(alooh_raw_data(1, 6) - alooh_raw_data(1, 3));
 g_h2o = -1 * h2o_raw_data(:, 5) .* h2o_raw_data(:, 1) + 1E3*(h2o_raw_data(1, 6) - h2o_raw_data(1, 3));
+g_d2o = -1 * h2o_raw_data(:, 5) .* h2o_raw_data(:, 1) + 1E3*(h2o_raw_data(1, 6)*1.03 - h2o_raw_data(1, 3));%multiply H by factor of 1.03 for deuterium
 
 %% Compounds - delta_G(T)
 delta_g_al2o3 = g_al2o3 - 2*g_al - 3/2*g_o2;
@@ -52,7 +53,7 @@ delta_g_aloh3 = g_aloh3 - g_al - 3/2*g_o2 - 3/2*g_h2;
 % (DEAL WITH THIS LATER) delta_g_alooh = g_alooh - g_al - g_o2 - 1/2*g_h2;
 delta_g_alooh = 1E3.*[-917.916 -904.720 -891.595 -878.351 -865.153 -851.917 -838.740]';
 T_alooh = [300 350 400 450 500 550 600]';
-delta_g_h2o = g_h2o - g_h2 - 1/2*g_o2;
+delta_g_h2o = g_d2o - g_h2 - 1/2*g_o2;%CHANGED TO G_D2O FOR TEST! CHANGE BACK TO G_H2O WHEN COMPLETE
 % Apply effect of pressure over P range
 delta_g_al2o3 = delta_g_al2o3 + v_al2o3*(P - P_0);
 delta_g_aloh3 = delta_g_aloh3 + v_aloh3*(P - P_0);
