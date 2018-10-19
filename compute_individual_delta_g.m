@@ -15,8 +15,6 @@ v_aloh3 = 1/2420;       % m^3/kg
 v_alooh = 1/3010;       % m^3/kg
 v_al2o3 = 1/3950;       % m^3/kg
 v_h2o = 1/1000;         % m^3/kg
-v_h2o_steam = 1.67;     % m^3/kg
-n_steam = 1/.018;       % moles/kg
 v_al = 1/2700;          % m^3/kg
 
 %% For pressure iteration
@@ -62,7 +60,7 @@ delta_g_h2o_steam = g_h2o_steam - g_h2 - 1/2*g_o2;
 delta_g_al2o3 = delta_g_al2o3 + v_al2o3*(P - P_0);
 delta_g_aloh3 = delta_g_aloh3 + v_aloh3*(P - P_0);
 delta_g_alooh = delta_g_alooh + v_alooh*(P - P_0);
-%delta_g_h2o = delta_g_h2o + v_h2o*(P - P_0); %UNCOMMENT WHEN NOT USING NORMAL WATER
+%delta_g_h2o = delta_g_h2o + v_h2o*(P - P_0); %UNCOMMENT WHEN USING NORMAL WATER
 delta_g_h2o = delta_g_h2o_steam + R*h2o_steam_raw_data(:,1)*log(P/P_0); %ADDED FOR STEAM ANALYSIS. COMMENT FOR NORMAL WATER
 
 %% Elements - delta_G(T)
