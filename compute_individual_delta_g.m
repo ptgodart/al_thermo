@@ -15,6 +15,8 @@ v_aloh3 = 1/2420;       % m^3/kg
 v_alooh = 1/3010;       % m^3/kg
 v_al2o3 = 1/3950;       % m^3/kg
 v_h2o = 1/1000;         % m^3/kg
+v_h2o_steam = 1.67;     % m^3/kg
+n_steam = 1/.018;       % moles/kg
 v_al = 1/2700;          % m^3/kg
 
 %% For pressure iteration
@@ -29,7 +31,7 @@ al_raw_data = csvread('al_nasa_raw.csv', 2, 0);
 h2_raw_data = csvread('h2_nasa_raw.csv', 2, 0);
 o2_raw_data = csvread('o2_nasa_raw.csv', 2, 0);
 h2o_raw_data = csvread('h2o_nasa_raw.csv', 2, 0);
-h2o_steam_raw_data = csvread('h2o_steam_nasa_raw.csv', 4, 0);
+h2o_steam_raw_data = csvread('h2o_steam_nasa_raw.csv', 2, 0);
 aloh3_raw_data = csvread('aloh3_nasa_raw.csv', 2, 0);
 % (DEAL WITH THIS LATER) alooh_raw_data = csvread('alooh_nasa_raw.csv', 2, 0);
 al2o3_raw_data = csvread('al2o3_nasa_raw.csv', 2, 0);
@@ -54,12 +56,14 @@ delta_g_aloh3 = g_aloh3 - g_al - 3/2*g_o2 - 3/2*g_h2;
 % (DEAL WITH THIS LATER) delta_g_alooh = g_alooh - g_al - g_o2 - 1/2*g_h2;
 delta_g_alooh = 1E3.*[-917.916 -904.720 -891.595 -878.351 -865.153 -851.917 -838.740]';
 T_alooh = [300 350 400 450 500 550 600]';
-delta_g_h2o = g_h2o_steam - g_h2 - 1/2*g_o2;
+delta_g_h2o = g_h2o - g_h2 - 1/2*g_o2; 
+delta_g_h2o_steam = g_h2o_steam - g_h2 - 1/2*g_o2; 
 % Apply effect of pressure over P range
 delta_g_al2o3 = delta_g_al2o3 + v_al2o3*(P - P_0);
 delta_g_aloh3 = delta_g_aloh3 + v_aloh3*(P - P_0);
 delta_g_alooh = delta_g_alooh + v_alooh*(P - P_0);
-delta_g_h2o = delta_g_h2o + v_h2o*(P - P_0);
+%delta_g_h2o = delta_g_h2o + v_h2o*(P - P_0); %UNCOMMENT WHEN NOT USING NORMAL WATER
+delta_g_h2o = delta_g_h2o_steam + R*h2o_steam_raw_data(:,1)*log(P/P_0); %ADDED FOR STEAM ANALYSIS. COMMENT FOR NORMAL WATER
 
 %% Elements - delta_G(T)
 delta_g_al = zeros(size(T));
