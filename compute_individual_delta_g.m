@@ -31,7 +31,7 @@ o2_raw_data = csvread('o2_nasa_raw.csv', 2, 0);
 h2o_raw_data = csvread('h2o_nasa_raw.csv', 2, 0);
 h2o_steam_raw_data = csvread('h2o_steam_nasa_raw.csv', 2, 0);
 aloh3_raw_data = csvread('aloh3_nasa_raw.csv', 2, 0);
-% (DEAL WITH THIS LATER) alooh_raw_data = csvread('alooh_nasa_raw.csv', 2, 0);
+% (DEAL WITH THIS LATER: Issue is that NASA data is only for gas phase HALO2) alooh_raw_data = csvread('alooh_nasa_raw.csv', 2, 0);
 al2o3_raw_data = csvread('al2o3_nasa_raw.csv', 2, 0);
 T = al_raw_data(:, 1);
 
@@ -60,8 +60,8 @@ delta_g_h2o_steam = g_h2o_steam - g_h2 - 1/2*g_o2;
 delta_g_al2o3 = delta_g_al2o3 + v_al2o3*(P - P_0);
 delta_g_aloh3 = delta_g_aloh3 + v_aloh3*(P - P_0);
 delta_g_alooh = delta_g_alooh + v_alooh*(P - P_0);
-%delta_g_h2o = delta_g_h2o + v_h2o*(P - P_0); %UNCOMMENT WHEN USING NORMAL WATER
-delta_g_h2o = delta_g_h2o_steam + R*h2o_steam_raw_data(:,1)*log(P/P_0); %ADDED FOR STEAM ANALYSIS. COMMENT FOR NORMAL WATER
+delta_g_h2o = delta_g_h2o + v_h2o*(P - P_0); %UNCOMMENT WHEN USING NORMAL WATER
+% delta_g_h2o = delta_g_h2o_steam + R*h2o_steam_raw_data(:,1)*log(P/P_0); %ADDED FOR STEAM ANALYSIS. COMMENT FOR NORMAL WATER
 
 %% Elements - delta_G(T)
 delta_g_al = zeros(size(T));
@@ -165,13 +165,14 @@ xlabel('Pressure', 'FontSize', 14);
 ylabel('Temperature [ºC]', 'FontSize', 14);
 zlabel('Gibbs Free Energy', 'FontSize', 14);
 title('Gibbs Free Energy For Al-Water Reactions Over Operating Range', 'FontSize', 16);
+legend('Al(OH)3', 'AlOOH', 'Al2O3');
 % Plot transitions
 figure(4); clf;
 hold on;
 plot(P, delta_g_1_2_transitions-273.15);
 plot(P, delta_g_2_3_transitions-273.15);
 %plot(P, delta_g_1_3_transitions-273.15);
-plot(P, 1730.63 ./ (8.07131 - log10(0.0075*P)) - 233.426);
+plot(P, 1730.63 ./ (8.07131 - log10(0.0075*P)) - 233.426, '--');
 title('Predicting Aluminum-Water Reaction Byproducts', 'FontSize', 16);
 ylabel('Temperature [ºC]', 'FontSize', 14);
 xlabel('Pressure [Pa]', 'FontSize', 14);
