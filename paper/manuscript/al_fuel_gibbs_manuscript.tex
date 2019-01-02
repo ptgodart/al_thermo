@@ -24,7 +24,7 @@
 %% $Id: elsarticle-template-num.tex 64 2013-05-15 12:23:51Z rishi $
 %%
 %%
-\documentclass[preprint,12pt]{elsarticle}
+\documentclass[preprint,12pt,3p]{elsarticle}
 
 %% Use the option review to obtain double line spacing
 %% \documentclass[authoryear,preprint,review,12pt]{elsarticle}
@@ -44,6 +44,8 @@
 
 %% The amssymb package provides various useful mathematical symbols
 \usepackage{amssymb}
+\usepackage{textcomp}
+\usepackage[version=4]{mhchem}
 %% The amsthm package provides extended theorem environments
 %% \usepackage{amsthm}
 
@@ -78,8 +80,8 @@
 %% \address{Address\fnref{label3}}
 %% \fntext[label3]{}
 
-\title{Thermodynamics Model of an Aluminum Water Reaction Over Wide Range of
-  Temperatures and Pressures}
+\title{Hydrogen Production From Aluminum-Water Reactions Subject to High
+  Pressures and Temperatures}
 
 %% use optional labels to link authors explicitly to addresses:
 %% \author[label1,label2]{}
@@ -96,12 +98,14 @@
 
 \begin{abstract}
 %% Text of abstract
-Aluminum blah blah
+Here's some stuff about what we did, blah blah
 
 \end{abstract}
 
 \begin{keyword}
 %% keywords here, in the form: keyword \sep keyword
+hydrogen production \sep aluminum activation \sep aluminum-water reaction \sep
+gibbs free energy \sep reaction favorability \sep byproduct determination
 
 %% PACS codes here, in the form: \PACS code \sep code
 
@@ -115,8 +119,91 @@ Aluminum blah blah
 %% \linenumbers
 
 %% main text
-\section{}
-\label{}
+\section{Introduction}
+\label{introduction}
+
+Aluminum is a great fuel, etc.
+
+\section{Model}
+\label{model}
+
+In order to predict the reaction products of an aluminum water reaction over a
+wide range of temperatures and pressures, we use the Gibbs free energy to
+determine which reaction is most favorable at given ambient conditions. To
+perform this analysis, it was first necessary to determine which reactions could
+possibly be occurring, and since aluminum, hydrogen, and oxygen can form a wide
+variety of compounds, it was also desirable to narrow down this list.
+
+Simple experiments that measure the output of hydrogen from an aluminum water
+reaction at atmospheric pressure and 20 \textdegree C conditions as in [Cite
+jonny?] have shown that 3 moles of hydrogen are generated for every 2 moles of
+aluminum reacted (do we want to include this experiment in this paper? easy to
+show Jason reaction completion data? can plot hydrogen yield as molar ratio to
+input aluminum). Consequently, the reaction that occurs can be one of the
+following:
+
+Using a setup shown in Figure XX, we measured the hydrogen evolved from the
+reaction of aluminum and water at 1 bar and 20 \textdegree C. From this simple
+experiment, we determined that roughly 3 moles of hydrogen were produced for
+every two moles of aluminum (do we need to talk about assuming the reaction
+proceeded to completion here? We determined from byproducts that no elemental
+aluminum was left in the reaction products?)...
+
+Consequently, we determined that the most likely reactions that occur are the
+ones in which yield hydrogen in a stoichiometric ratio of 3:2 with aluminum.
+These likely reactions are
+
+\begin{equation}
+  \ce{2Al_{(s)} + 6H2O_{(l)} -> 3H2_{(g)} + 2Al(OH)3_{(aq)} + Q}
+  \label{test}
+\end{equation}
+
+\begin{equation}
+  \ce{2Al_{(s)} + 4H2O_{(l)} -> 3H2_{(g)} + 2AlOOH_{(aq)} + Q}
+  \label{eq:oxyhydroxide}
+\end{equation}
+
+\begin{equation}
+  \ce{2Al_{(s)} + 2H2O_{(l)} -> 3H2_{(g)} + 2Al2O3_{(aq)} + Q}
+  \label{eq:oxide}
+\end{equation}.
+
+For each of these reactions, we compute the change in Gibbs free energy,
+$\Delta_fG(T,p)$, between the products and reactants. For example, the change in
+Gibbs free energy for reaction \ref{test} would be given by
+
+\begin{equation}
+  \Delta_fG^{(1)} = (2\cdot g_{Al(OH)_3} + 3\cdot g_{H_2}) - (2\cdot g_{Al} + 6\cdot g_{H_2O})
+\end{equation}.
+
+For $\Delta_fG(T,p) < 0$, the reaction is spontaneous and for $\Delta_fG(T,p) > 0$, 
+the reaction will not occur with outside influence. A reaction without a
+change in Gibbs free energy ($\Delta_fG(T,p) = 0$) is in equilibrium. When
+multiple reactions are possible, the most favorable reaction is the one that
+minimizes the Gibbs free energy at a particular temperature and pressure.
+
+Literature values for the Gibbs free energy of the species involved in these
+reaction are given for a wide range of temperatures as shown in [] and [] but
+only for 1 bar. Our goal, however, is to model the aluminum water reaction over
+a range of operating pressures, so we need an expression for accounting for the
+change due to pressure...
+
+\section{Materials}
+\label{materials}
+
+\subsection{Aluminum Activation}
+
+\section{Experimental}
+\label{experiment}
+
+\section{Results}
+\label{results}
+
+\section{Discussion}
+\label{discussion}
+
+\section{Conclusion}
+\label{conclusion}
 
 %% The Appendices part is started with the command \appendix;
 %% appendix sections are then done as normal sections
