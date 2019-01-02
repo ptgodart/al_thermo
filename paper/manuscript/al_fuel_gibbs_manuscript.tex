@@ -149,13 +149,13 @@ every two moles of aluminum (do we need to talk about assuming the reaction
 proceeded to completion here? We determined from byproducts that no elemental
 aluminum was left in the reaction products?)...
 
-Consequently, we determined that the most likely reactions that occur are the
+Consequently, we determined that the most likely reactions to occur are the
 ones in which yield hydrogen in a stoichiometric ratio of 3:2 with aluminum.
-These likely reactions are
+These reactions are
 
 \begin{equation}
   \ce{2Al_{(s)} + 6H2O_{(l)} -> 3H2_{(g)} + 2Al(OH)3_{(aq)} + Q}
-  \label{test}
+  \label{eq:hydroxide}
 \end{equation}
 
 \begin{equation}
@@ -164,29 +164,95 @@ These likely reactions are
 \end{equation}
 
 \begin{equation}
-  \ce{2Al_{(s)} + 2H2O_{(l)} -> 3H2_{(g)} + 2Al2O3_{(aq)} + Q}
+  \ce{2Al_{(s)} + 2H2O_{(l)} -> 3H2_{(g)} + 2Al2O3_{(aq)} + Q.}
   \label{eq:oxide}
-\end{equation}.
+\end{equation}
 
 For each of these reactions, we compute the change in Gibbs free energy,
 $\Delta_fG(T,p)$, between the products and reactants. For example, the change in
-Gibbs free energy for reaction \ref{test} would be given by
+Gibbs free energy for reaction \ref{eq:hydroxide} would be given by
 
 \begin{equation}
-  \Delta_fG^{(1)} = (2\cdot g_{Al(OH)_3} + 3\cdot g_{H_2}) - (2\cdot g_{Al} + 6\cdot g_{H_2O})
-\end{equation}.
+  \Delta_fG^{(1)} = (2\cdot g_{Al(OH)_3} + 3\cdot g_{H_2}) - (2\cdot g_{Al} + 6\cdot g_{H_2O}),
+\end{equation}
 
-For $\Delta_fG(T,p) < 0$, the reaction is spontaneous and for $\Delta_fG(T,p) > 0$, 
-the reaction will not occur with outside influence. A reaction without a
-change in Gibbs free energy ($\Delta_fG(T,p) = 0$) is in equilibrium. When
-multiple reactions are possible, the most favorable reaction is the one that
-minimizes the Gibbs free energy at a particular temperature and pressure.
+\noindent where $g_{Al(OH)_3}$, for example, is the Gibbs free energy of
+aluminum hydroxide, $Al(OH)_3$ at a given temperature and pressure.
+
+The sign and magnitude of this quantity indicate whether the reaction in
+question can occur spontaneously without outside influence and its relative
+favorability over other possible reactions. Specifically, for $\Delta_fG(T,p) <
+0$, the reaction is spontaneous and for $\Delta_fG(T,p) > 0$, the reaction will
+not occur with outside influence. A reaction without a change in Gibbs free
+energy ($\Delta_fG(T,p) = 0$) is in equilibrium. When multiple reactions are
+possible, the most favorable reaction is the one that minimizes the Gibbs free
+energy at a particular temperature and pressure.
 
 Literature values for the Gibbs free energy of the species involved in these
 reaction are given for a wide range of temperatures as shown in [] and [] but
 only for 1 bar. Our goal, however, is to model the aluminum water reaction over
-a range of operating pressures, so we need an expression for accounting for the
-change due to pressure...
+a range of operating pressures as well. As shown in Appendix A, the change in
+Gibbs free energy for a species at non-atmospheric temperature and pressures is
+given as
+
+\begin{equation}
+  \Delta_f g(T,p) = \Delta_f g^{0}(T) + v(p-p_0)
+  \label{eq:gibbs_solid}
+\end{equation}
+
+\noindent for solid, liquid, or aqueous species and
+
+\begin{equation}
+  \Delta_f g(T,p) = \Delta_f g^{0}(T) + RT\ln\left(\frac{p}{p_0}\right) 
+  \label{eq:gibbs_gas}
+\end{equation}
+
+\noindent for gaseous species. In both cases $\Delta_f g^0$ is the change in
+Gibbs free energy per mole of species $i$ at 1 bar and is given in literature,
+$v$ is the specific volume of species $i$, and R is the ideal gas constant. It
+is important to note that in Equation \ref{eq:gibbs_gas}, $p$ is the partial
+pressure of the gas species, whereas $p$ in Equation \ref{eq:gibbs_solid} is the
+total ambient pressure. To compute the change in Gibbs free energy for each of
+the candidate aluminum water reactions, we apply the stoichiometric ratios in
+Equations \ref{eq:hydroxide}-\ref{eq:oxide} to the appropriate expression for
+molar change in Gibbs free energy, depending on the phase of each species.
+
+For this analysis, we neglect the presence of air or other inert gases as well
+as the formation of steam that could occur due to the exothermic nature of
+aluminum water reactions. To be completely accurate, these must be accounted for
+as well, but because their presence is highly dependent on reaction
+configurations, it is difficult to generalize their influence. The presence of
+other inert gases is typically negligible as the partial pressure of hydrogen
+reaction product appears inside a natural logarithm term in Equation
+\ref{eq:gibbs_gas}. The formation of steam, however, would be significant and
+should be the focus of future work.
+
+To determine which reaction is most favorable at a given constant temperature
+and pressure, we seek the reaction that minimizes $\Delta_f G(T,p)$. Using
+values for $g_i^0(T)$ given by [NASA] and [oxyhydroxide paper] for $AlOOH$, we
+computed Gibbs free energy surfaces for each of the three candidate aluminum
+water reactions, as shown in Figure \ref{fig:gibbs_surface}. At a given
+temperature and pressure, the most negative Gibbs free energy surface at that
+point will be the most favorable reaction to occur. To highlight where these
+transitions occur, we can project the minimum surface values onto the $T$-$p$
+plane, as shown in Figure \ref{fig:transitions_full}, clearly showing which reaction
+is favorable for each $(T,p)$.
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.8\textwidth]{fig/gibbs_total_surface}
+  \label{fig:gibbs_surface}
+\end{figure}
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.7\textwidth]{fig/transitions}
+  \label{fig:transitions_full}
+\end{figure}
+
+\subsection{Limited Reactivity with Steam}
+
+We have also shown that steam does not react with...
 
 \section{Materials}
 \label{materials}
