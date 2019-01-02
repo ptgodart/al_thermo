@@ -219,13 +219,14 @@ molar change in Gibbs free energy, depending on the phase of each species.
 
 For this analysis, we neglect the presence of air or other inert gases as well
 as the formation of steam that could occur due to the exothermic nature of
-aluminum water reactions. To be completely accurate, these must be accounted for
-as well, but because their presence is highly dependent on reaction
-configurations, it is difficult to generalize their influence. The presence of
-other inert gases is typically negligible as the partial pressure of hydrogen
-reaction product appears inside a natural logarithm term in Equation
-\ref{eq:gibbs_gas}. The formation of steam, however, would be significant and
-should be the focus of future work.
+aluminum water reactions. To be additionally accurate, these effects must be
+accounted for as well, but because their presence is highly dependent on
+reaction configurations, it is difficult to generalize their influence. The
+presence of other inert gases is typically negligible as the partial pressure of
+hydrogen reaction product appears inside a natural logarithm term in Equation
+\ref{eq:gibbs_gas}. The formation of steam, however, could be significant and
+should be addressed in future work. For simplicity and generality, we have
+chosen to neglect this effect here.
 
 To determine which reaction is most favorable at a given constant temperature
 and pressure, we seek the reaction that minimizes $\Delta_f G(T,p)$. Using
@@ -233,26 +234,73 @@ values for $g_i^0(T)$ given by [NASA] and [oxyhydroxide paper] for $AlOOH$, we
 computed Gibbs free energy surfaces for each of the three candidate aluminum
 water reactions, as shown in Figure \ref{fig:gibbs_surface}. At a given
 temperature and pressure, the most negative Gibbs free energy surface at that
-point will be the most favorable reaction to occur. To highlight where these
-transitions occur, we can project the minimum surface values onto the $T$-$p$
-plane, as shown in Figure \ref{fig:transitions_full}, clearly showing which reaction
-is favorable for each $(T,p)$.
+point will be the reaction that is most favorable to occur. To highlight the
+transitions between each reaction regime, we plot
+
+\begin{equation}
+  \min_i(\Delta_fG^{(i)}(T,p))
+  \label{eq:min_gibbs}
+\end{equation}
+
+\noindent in order to show the regimes in which each reaction, $i$ is most
+favorable.  Figure \ref{fig:transitions} shows these regimes and can be used
+generally to determine ideal operating conditions for a particular application.
 
 \begin{figure}
   \centering
   \includegraphics[width=0.8\textwidth]{fig/gibbs_total_surface}
+  \caption{Gibbs free energy surface plots for each candidate aluminum water
+  reaction over a range of temperatures and pressures. The legend indicates the
+  aluminum byproduct for each of the reactions given by Equations
+\ref{eq:hydroxide}-\ref{eq:oxide}.}
   \label{fig:gibbs_surface}
 \end{figure}
 
 \begin{figure}
   \centering
   \includegraphics[width=0.7\textwidth]{fig/transitions}
-  \label{fig:transitions_full}
+  \caption{Reaction regimes for an aluminum water reaction over a range of
+  temperatures and pressures. For points that fall below the bottom-most line,
+the reaction given by Equation \ref{eq:hydroxide} will be most favorable, for
+example.}
+  \label{fig:transitions}
 \end{figure}
 
 \subsection{Limited Reactivity with Steam}
 
-We have also shown that steam does not react with...
+With the particular method of activation we employed for this research (see
+Section \ref{materials}), we found that our activated aluminum pellets would not
+react with steam. As shown in Figure \ref{fig:gibbs_steam_surface}, the Gibbs
+free energy for the three candidate reactions of aluminum with steam are all
+negative over the temperature and pressure range of interest here, indicating
+that the reaction should be spontaneous absent other inhibiting factors.  While
+the method of interaction preventing this reaction from proceeding is yet fully
+understood, we were unable to detect evidence of a reaction with superheated
+steam. As shown in Figure \ref{fig:steam_test}, we reacted...
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.8\textwidth]{fig/gibbs_steam_total_surface}
+  \caption{Gibbs free energy surface plots for each candidate aluminum steam
+  reaction, indicating that the reaction should be thermodynamically favorable
+over the temperature and pressure range of interest.}
+  \label{fig:gibbs_steam_surface}
+\end{figure}
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.6\textwidth]{fig/transitions_bp}
+  \caption{Reaction transition diagram for activated aluminum pellets that do
+  not react with steam.}
+  \label{fig:transitions_bp}
+\end{figure}
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.5\textwidth]{fig/steam_test_min}
+  \caption{The reaction with steam does not proceed. a) shows...}
+  \label{fig:steam_test}
+\end{figure}
 
 \section{Materials}
 \label{materials}
