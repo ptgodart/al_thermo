@@ -127,29 +127,29 @@ Aluminum is a great fuel, etc.
 \section{Model}
 \label{model}
 
-In order to predict the reaction products of an aluminum water reaction over a
-wide range of temperatures and pressures, we use the Gibbs free energy to
-determine which reaction is most favorable at given ambient conditions. To
-perform this analysis, it was first necessary to determine which reactions could
-possibly be occurring, and since aluminum, hydrogen, and oxygen can form a wide
-variety of compounds, it was also desirable to narrow down this list.
+The objective of this research is to predict which of the many possible
+aluminum-water reactions occurs as a function of ambient temperatures and
+pressures. Our target operating temperature and pressure ranges for this
+analysis are 300-600 K and 101-10,000 kPa respectively. To this end, we use the
+thermodynamic quantity of the Gibbs free energy to characterize these reactions
+over this operating range. Use of this thermodynamic quantity typically involves
+systems that are held at constant temperature and pressure, which is a
+reasonable steady state assumption for the many applications that require
+hydrogen to be evolved from an aluminum-water reaction at a constant rate.
+Additionally, because aluminum and water can react to form a wide array of
+compounds of the form $Al_xO_yH_z$, it was first necessary to narrow down this
+list to make this analysis more tractable. 
 
-Simple experiments that measure the output of hydrogen from an aluminum water
-reaction at atmospheric pressure and 20 \textdegree C conditions as in [Cite
-jonny?] have shown that 3 moles of hydrogen are generated for every 2 moles of
-aluminum reacted (do we want to include this experiment in this paper? easy to
-show Jason reaction completion data? can plot hydrogen yield as molar ratio to
-input aluminum). Consequently, the reaction that occurs can be one of the
-following:
-
-Using a setup shown in Figure XX, we measured the hydrogen evolved from the
-reaction of aluminum and water at 1 bar and 20 \textdegree C. From this simple
-experiment, we determined that roughly 3 moles of hydrogen were produced for
-every two moles of aluminum (do we need to talk about assuming the reaction
+Fortunately, simple experiments that measure the output of hydrogen from an
+aluminum water reaction at atmospheric pressure and 20 \textdegree C conditions
+as in [Cite jonny?] have shown that 3 moles of hydrogen are generated for every
+2 moles of aluminum reacted (do we want to include this experiment in this
+paper? easy to show Jason reaction completion data? can plot hydrogen yield as
+molar ratio to input aluminum).(do we need to talk about assuming the reaction
 proceeded to completion here? We determined from byproducts that no elemental
-aluminum was left in the reaction products?)...
+aluminum was left in the reaction products?)
 
-Consequently, we determined that the most likely reactions to occur are the
+Consequently, we hypothesized that the most likely reactions to occur are the
 ones in which yield hydrogen in a stoichiometric ratio of 3:2 with aluminum.
 These reactions are
 
@@ -188,15 +188,17 @@ favorability over other possible reactions. Specifically, for $\Delta_fG(T,p) <
 0$, the reaction is spontaneous and for $\Delta_fG(T,p) > 0$, the reaction will
 not occur with outside influence. A reaction without a change in Gibbs free
 energy ($\Delta_fG(T,p) = 0$) is in equilibrium. When multiple reactions are
-possible, the most favorable reaction is the one that minimizes the Gibbs free
-energy at a particular temperature and pressure.
+possible at given ambient conditions, the most favorable reaction is the one
+that minimizes the Gibbs free energy.
 
-Literature values for the Gibbs free energy of the species involved in these
-reaction are given for a wide range of temperatures as shown in [] and [] but
-only for 1 bar. Our goal, however, is to model the aluminum water reaction over
-a range of operating pressures as well. As shown in Appendix A, the change in
-Gibbs free energy for a species at non-atmospheric temperature and pressures is
-given as
+To compute this quantity for our candidate reactions, we start with literature
+values for the Gibbs free energy of the species involved in these reaction.
+These values are given for a wide range of temperatures as in [] and [], but
+they are all specified at a pressure of 1 bar. Our goal, however, is to model
+the aluminum water reaction over a range of operating pressures as well.  As
+shown in Appendix A, we can derive a relationship that relates the known Gibbs
+free energy for a species at temperature $T$ and 1 bar to the Gibbs free energy
+of that species at some arbitrary pressure $p$. This relationship is given as
 
 \begin{equation}
   \Delta_f g(T,p) = \Delta_f g^{0}(T) + v(p-p_0)
@@ -224,21 +226,36 @@ For this analysis, we neglect the presence of air or other inert gases as well
 as the formation of steam that could occur due to the exothermic nature of
 aluminum water reactions. To be additionally accurate, these effects must be
 accounted for as well, but because their presence is highly dependent on
-reaction configurations, it is difficult to generalize their influence. The
-presence of other inert gases is typically negligible as the partial pressure of
-hydrogen reaction product appears inside a natural logarithm term in Equation
-\ref{eq:gibbs_gas}. The formation of steam, however, could be significant and
-should be addressed in future work. For simplicity and generality, we have
-chosen to neglect this effect here.
+reaction configurations, it is difficult to generalize their influence.
+Moreover, the presence of other inert gases is typically negligible as the
+partial pressure of hydrogen reaction product appears inside a natural logarithm
+term in Equation \ref{eq:gibbs_gas}. The formation of steam, however, could be
+significant and should be addressed in future work. For simplicity and
+generality, we have chosen to neglect this effect here. Finally, we hypothesized
+that the precise method of activating aluminum to make it reactive with water
+would have a relatively minimal effect on the Gibbs free energy provided that
+the catalysts strictly do not participate in the reaction. For our particular
+method of activation, described here in Section \ref{materials}, we additionally
+support this hypothesis with the fact that the composition of the original
+elemental aluminum is altered by \textless3\% by total mass. Even if the gallium
+and indium in this case participated in the reaction to some degree, the effects
+of their presence would be minimal.
 
-To determine which reaction is most favorable at a given constant temperature
-and pressure, we seek the reaction that minimizes $\Delta_f G(T,p)$. Using
-values for $g_i^0(T)$ given by [NASA] and [oxyhydroxide paper] for $AlOOH$, we
-computed Gibbs free energy surfaces for each of the three candidate aluminum
-water reactions, as shown in Figure \ref{fig:gibbs_surface}. At a given
-temperature and pressure, the most negative Gibbs free energy surface at that
-point will be the reaction that is most favorable to occur. To highlight the
-transitions between each reaction regime, we plot
+To determine which reaction is most favorable at given constant temperature and
+pressure conditions, we seek the reaction that minimizes $\Delta_f G(T,p)$.
+Using values for $g_i^0(T)$ given by [NASA] for $Al_{(s)}$, $H_2O_{(l)}$,
+$H_{2(g)}$, $Al(OH)_{3(aq)}$, and $Al_2O_{3(aq)}$ and [oxyhydroxide paper] for
+$AlOOH_{(aq)}$, we computed Gibbs free energy surfaces for each of the three
+candidate aluminum water reactions in MATLAB by evaluating this quantity over a
+grid of 3100 $(T,p)$ points. Because our temperature data was comparatively
+sparse, we iterated over pressures, at every step computing the Gibbs free
+energy for each available temperature data point and interpolating using a
+second order polynomial. Sweeping these curve-fit polynomials over our operating
+pressure range generates the surfaces shown in Figure \ref{fig:gibbs_surface}.
+As shown here, at a given temperature and pressure, the most negative Gibbs free
+energy surface at some point $(T,p)$ will be the reaction that is most favorable
+to occur at that temperature and pressure. To highlight the transitions between
+each reaction regime, we compute
 
 \begin{equation}
   \min_i(\Delta_fG^{(i)}(T,p))
@@ -246,12 +263,13 @@ transitions between each reaction regime, we plot
 \end{equation}
 
 \noindent in order to show the regimes in which each reaction, $i$ is most
-favorable.  Figure \ref{fig:transitions} shows these regimes and can be used
-generally to determine ideal operating conditions for a particular application.
+favorable.  Figure \ref{fig:transitions} shows the curves that represent the
+transitions between these regimes and can be used generally to determine ideal
+operating conditions for a particular application.
 
 \begin{figure}
   \centering
-  \includegraphics[width=0.8\textwidth]{fig/gibbs_total_surface}
+  \includegraphics[width=0.7\textwidth]{fig/gibbs_total_surface}
   \caption{Gibbs free energy surface plots for each candidate aluminum water
   reaction over a range of temperatures and pressures. The legend indicates the
   aluminum byproduct for each of the reactions given by Equations
@@ -261,7 +279,7 @@ generally to determine ideal operating conditions for a particular application.
 
 \begin{figure}
   \centering
-  \includegraphics[width=0.7\textwidth]{fig/transitions}
+  \includegraphics[width=0.5\textwidth]{fig/transitions}
   \caption{Reaction regimes for an aluminum water reaction over a range of
   temperatures and pressures. For points that fall below the bottom-most line,
 the reaction given by Equation \ref{eq:hydroxide} will be most favorable, for
@@ -269,17 +287,29 @@ example.}
   \label{fig:transitions}
 \end{figure}
 
-\subsection{Limited Reactivity with Steam}
+\subsection{Observed Limited Reactivity with Steam}
 
-With the particular method of activation we employed for this research (see
-Section \ref{materials}), we found that our activated aluminum pellets would not
-react with steam. As shown in Figure \ref{fig:gibbs_steam_surface}, the Gibbs
+With the particular method of aluminum activation we employed for this research
+(see Section \ref{materials}), we found that our activated aluminum pellets
+would not react with steam. We can perform the same analysis as before to
+compute the Gibbs free energy for each candidate reaction but with literature
+values for steam instead of liquid water. The results of this analysis are shown
+in Figure \ref{fig:gibbs_steam_surface}. As this figure shows, that the Gibbs
 free energy for the three candidate reactions of aluminum with steam are all
-negative over the temperature and pressure range of interest here, indicating
-that the reaction should be spontaneous absent other inhibiting factors.  While
-the method of interaction preventing this reaction from proceeding is yet fully
-understood, we were unable to detect evidence of a reaction with superheated
-steam. As shown in Figure \ref{fig:steam_test}, we reacted...
+negative over the temperature and pressure ranges of interest, indicating that
+the reaction should be spontaneous absent other inhibiting factors. While the
+method of interaction preventing this reaction from proceeding is yet fully
+understood, experiments described here in Section \ref{experimental} indicate
+that nevertheless superheated steam and aluminum are unreactive. Consequently,
+we can modify our reaction regime transition diagram accordingly to show limited
+reactivity above the saturation temperature, $T_{sat}(p)$, for water at a given
+pressure. Above $T_{sat}(p)$, liquid water will rapidly vaporize at the surface
+of the aluminum, inhibiting the reaction. Figure \ref{fig:transitions_bp} shows
+this modified transition diagram. It is important to note here that this diagram
+is not a general result but is specific to our method of aluminum activation.
+Different activation methods may yield aluminum which is reactive with steam, in
+which case the diagram in Figure \ref{fig:transitions} should be used for
+applications instead.
 
 \begin{figure}
   \centering
@@ -293,8 +323,10 @@ over the temperature and pressure range of interest.}
 \begin{figure}
   \centering
   \includegraphics[width=0.6\textwidth]{fig/transitions_bp}
-  \caption{Reaction transition diagram for activated aluminum pellets that do
-  not react with steam.}
+  \caption{Reaction transition diagram for activated aluminum pellets that show
+  limited reactivity with steam. Here the dashed line is the water saturation
+temperature curve, above which liquid water will vaporize rapidly on surface of
+aluminum, inhibiting reaction.}
   \label{fig:transitions_bp}
 \end{figure}
 
@@ -321,7 +353,9 @@ its high reaction yields and ease of handling due to its bulk nature.
 Describe how we actually make the fuel here...
 
 \section{Experimental}
-\label{experiment}
+\label{experimental}
+
+\subsection{Validating Thermodynamics Model}
 
 To validate the model presented here in Section \ref{model}, we performed
 several reaction tests at various temperature and pressure combinations and
@@ -330,6 +364,8 @@ for each set of reaction conditions. In total, we ran 5 experiments at the
 points shown in Figure XX (can maybe add this to the reaction transition diagram
 so as to avoid being redundant?). For the high pressure tests, we used the
 reaction setup shown in Figure XX...
+
+\subsection{Reaction Testing With Steam}
 
 \section{Results}
 \label{results}
