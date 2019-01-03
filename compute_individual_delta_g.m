@@ -158,9 +158,9 @@ title(['Extrapolated Gibbs Free Energy For Al-Water Reactions at ' num2str(P(P_i
 % Plot surface
 figure(3); clf;
 hold on;
-surf_1 = surf(P,T,delta_g_1);
-surf_2 = surf(P,T_alooh,delta_g_2);
-surf_3 = surf(P,T,delta_g_3);
+surf_1 = surf(P,T-273.15,delta_g_1);
+surf_2 = surf(P,T_alooh-273.15,delta_g_2);
+surf_3 = surf(P,T-273.15,delta_g_3);
 xlabel('Pressure', 'FontSize', 14);
 ylabel('Temperature [ºC]', 'FontSize', 14);
 zlabel('Gibbs Free Energy', 'FontSize', 14);
