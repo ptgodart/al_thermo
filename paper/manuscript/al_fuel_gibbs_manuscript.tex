@@ -122,36 +122,66 @@ gibbs free energy \sep reaction favorability \sep byproduct determination
 \section{Introduction}
 \label{introduction}
 
-Aluminum is a great fuel, etc.
+
+As global energy consumption continues to climb, and the environmental concerns
+of consuming fossil fuels becomes more apparent, the search for viable
+alternative fuels and energy storage methods is becoming increasable critical.
+For decades, people have held hope that the transition to a hydrogen economy
+would be the future of a sustainable, and high efficiency electrical grid. The
+development of high efficiency hydrogen fuel cells (cite) has increased the
+prospects of such a system, however the outstanding logistical challenges of
+hydrogen storage and safety have kept it from becoming a reality (cite). 
+
+In recent years, aluminum fuel technologies have also been developed that can be
+used as an alternative, highly energy dense, power source. Methods involving
+ball milling (cite), alloying (cite), or surface treating (cite) aluminum with
+other metals have been shown to allow aluminum to react with water, releasing
+its internal energy as a mix of heat and hydrogen gas. Aluminum has an energy
+density of 83.8 MJ/l which is twice that of diesel, 8 times that of liquid
+hydrogen, and 40 times that of primary cell Li-ion batteries, making it an
+extremely viable energy source when reacted in the manner. Additionally, the
+reaction of aluminum with water produces hydrogen at a ratio of 2:3 moles of
+aluminum to moles of hydrogen, meaning that when reacted, it can effectively
+produce large quantities of hydrogen on demand. This would allow for a system
+where aluminum fuel can be stored and transported safely and easily, and then
+used to produce hydrogen when needed on site. 
+
+In order to further understand this aluminum fuel and it’s potential as a
+hydrogen source, it is necessary to fully characterize the energetic
+aluminum-water reactions observed by Slocum, [], and others(?). In this paper,
+the thermodynamics of the aluminum-water reaction are analyzed and tested under
+various temperatures and pressures, in order to conclude the exact chemical
+reaction that occurs.
+
 
 \section{Model}
 \label{model}
 
-The objective of this research is to predict which of the many possible
-aluminum-water reactions occurs as a function of ambient temperatures and
-pressures. Our target operating temperature and pressure ranges for this
-analysis are 300-600 K and 101-10,000 kPa respectively. To this end, we use the
-thermodynamic quantity of the Gibbs free energy to characterize these reactions
-over this operating range. Use of this thermodynamic quantity typically involves
-systems that are held at constant temperature and pressure, which is a
-reasonable steady state assumption for the many applications that require
-hydrogen to be evolved from an aluminum-water reaction at a constant rate.
-Additionally, because aluminum and water can react to form a wide array of
-compounds of the form $Al_xO_yH_z$, it was first necessary to narrow down this
-list to make this analysis more tractable. 
+The objective of this research was to predict which of the possible
+aluminum-water reactions is most likely to occur as a function of ambient
+conditions over a range of temperatures from 300-600 K and pressures from
+101-10,000 kPa. Because many hydrogen-based power applications require that
+hydrogen be evolved from an aluminum-water reaction at a constant rate, it is
+reasonable to assume that the temperature and pressure of such a reaction is
+kept constant during steady state operations. As a result, we can use the
+thermodynamic quantity of the Gibbs free energy to characterize the favorability
+of each possible reaction over our target range of operating conditions. 
 
-Fortunately, simple experiments that measure the output of hydrogen from an
-aluminum water reaction at atmospheric pressure and 20 \textdegree C conditions
-as in [Cite jonny?] have shown that 3 moles of hydrogen are generated for every
-2 moles of aluminum reacted (do we want to include this experiment in this
-paper? easy to show Jason reaction completion data? can plot hydrogen yield as
-molar ratio to input aluminum).(do we need to talk about assuming the reaction
-proceeded to completion here? We determined from byproducts that no elemental
-aluminum was left in the reaction products?)
+Because aluminum and water can react to produce a number of compounds of the
+form $Al_xO_yH_z$, it was first necessary to narrow down this list to make our
+analysis more tractable. In nature, aluminum is found most abundantly in the
+Earth's crust in bauxite, sedimentary rock comprised of gibbsite ($Al(OH)_3$)
+and boehmite ($AlO(OH)$), and in aluminum oxides ($Al_2O_3$). With this
+information, coupled with aluminum-water reaction experiments that showed
+hydrogen being produced in a stoichiometric ratio of 3:2 with aluminum [cite
+Jonny or show our own data?], we hypothesized that the most likely reactions to
+occur are:  
 
-Consequently, we hypothesized that the most likely reactions to occur are the
-ones in which yield hydrogen in a stoichiometric ratio of 3:2 with aluminum.
-These reactions are
+%(do we want to include this experiment in this paper? easy to show Jason
+%reaction completion data? can plot hydrogen yield as molar ratio to input
+%aluminum).(do we need to talk about assuming the reaction proceeded to
+%completion here? We determined from byproducts that no elemental aluminum was
+%left in the reaction products?) 
 
 \begin{equation}
   \ce{2Al_{(s)} + 6H2O_{(l)} -> 3H2_{(g)} + 2Al(OH)3_{(aq)} + Q}
@@ -159,7 +189,7 @@ These reactions are
 \end{equation}
 
 \begin{equation}
-  \ce{2Al_{(s)} + 4H2O_{(l)} -> 3H2_{(g)} + 2AlOOH_{(aq)} + Q}
+  \ce{2Al_{(s)} + 4H2O_{(l)} -> 3H2_{(g)} + 2AlO(OH)_{(aq)} + Q}
   \label{eq:oxyhydroxide}
 \end{equation}
 
@@ -169,30 +199,36 @@ These reactions are
 \end{equation}
 
 \noindent where Q indicates the release of heat in each reaction and is itself a
-function of temperature and pressure conditions.
+function of temperature and pressure conditions. This hypothesis was further
+supported by early work on aluminum-water reactions, which showed conclusively
+that reactions at 100 \textdegree C and 1 bar primarily produce $AlO(OH)$ [cite
+aluminum water reaction paper]. Wider ranges of ambient conditions, however,
+were not explored, and thus it was not known whether other reactions were
+possible and if so, at which temperatures and pressures the transitions occur.
 
-For each of these reactions, we compute the change in Gibbs free energy,
-$\Delta_fG(T,p)$, between the products and reactants. For example, the change in
+For each of these candidate reactions, we compute the change in Gibbs free
+energy, $\Delta_fG(T,p)$, between the products and reactants, in order to
+determine how likely that reaction is to proceed. For example, the change in
 Gibbs free energy for reaction \ref{eq:hydroxide} would be given by
 
 \begin{equation}
   \Delta_fG^{(1)} = (2\cdot g_{Al(OH)_3} + 3\cdot g_{H_2}) - (2\cdot g_{Al} + 6\cdot g_{H_2O}),
 \end{equation}
 
-\noindent where $g_{Al(OH)_3}$, for example, is the Gibbs free energy of
-aluminum hydroxide, $Al(OH)_3$ at a given temperature and pressure.
+\noindent where $g_{Al(OH)_3}$, is the Gibbs free energy of $Al(OH)_3$ at a
+given temperature and pressure.
 
 The sign and magnitude of this quantity indicate whether the reaction in
 question can occur spontaneously without outside influence and its relative
 favorability over other possible reactions. Specifically, for $\Delta_fG(T,p) <
 0$, the reaction is spontaneous and for $\Delta_fG(T,p) > 0$, the reaction will
-not occur with outside influence. A reaction without a change in Gibbs free
+not occur without outside influence. A reaction without a change in Gibbs free
 energy ($\Delta_fG(T,p) = 0$) is in equilibrium. When multiple reactions are
 possible at given ambient conditions, the most favorable reaction is the one
 that minimizes the Gibbs free energy.
 
 To compute this quantity for our candidate reactions, we start with literature
-values for the Gibbs free energy of the species involved in these reaction.
+values for the Gibbs free energy of the species involved in these reactions.
 These values are given for a wide range of temperatures as in [] and [], but
 they are all specified at a pressure of 1 bar. Our goal, however, is to model
 the aluminum water reaction over a range of operating pressures as well.  As
@@ -201,26 +237,27 @@ free energy for a species at temperature $T$ and 1 bar to the Gibbs free energy
 of that species at some arbitrary pressure $p$. This relationship is given as
 
 \begin{equation}
-  \Delta_f g(T,p) = \Delta_f g^{0}(T) + v(p-p_0)
+  \Delta_f g_i(T,p) = \Delta_f g_i^{0}(T) + v_i(p-p_0)
   \label{eq:gibbs_solid}
 \end{equation}
 
 \noindent for solid, liquid, or aqueous species and
 
 \begin{equation}
-  \Delta_f g(T,p) = \Delta_f g^{0}(T) + RT\ln\left(\frac{p}{p_0}\right) 
+  \Delta_f g_i(T,p) = \Delta_f g_i^{0}(T) + RT\ln\left(\frac{p}{p_0}\right) 
   \label{eq:gibbs_gas}
 \end{equation}
 
-\noindent for gaseous species. In both cases $\Delta_f g^0$ is the change in
-Gibbs free energy per mole of species $i$ at 1 bar and is given in literature,
-$v$ is the specific volume of species $i$, and R is the ideal gas constant. It
-is important to note that in Equation \ref{eq:gibbs_gas}, $p$ is the partial
-pressure of the gas species, whereas $p$ in Equation \ref{eq:gibbs_solid} is the
-total ambient pressure. To compute the change in Gibbs free energy for each of
-the candidate aluminum water reactions, we apply the stoichiometric ratios in
-Equations \ref{eq:hydroxide}-\ref{eq:oxide} to the appropriate expression for
-molar change in Gibbs free energy, depending on the phase of each species.
+\noindent for gaseous species. In both cases $\Delta_f g_i^0(T)$ is the change
+in Gibbs free energy per mole of species $i$ at temperature $T$ and 1 bar and is
+given in literature, $v_i$ is the specific volume of species $i$, and R is the
+ideal gas constant. It is important to note that in Equation \ref{eq:gibbs_gas},
+$p$ is the partial pressure of the gas species, whereas $p$ in Equation
+\ref{eq:gibbs_solid} is the total ambient pressure. To compute the change in
+Gibbs free energy for each of the candidate aluminum water reactions, we apply
+the stoichiometric ratios in Equations \ref{eq:hydroxide}-\ref{eq:oxide} to the
+appropriate expression for molar change in Gibbs free energy, depending on the
+phase of each species.
 
 For this analysis, we neglect the presence of air or other inert gases as well
 as the formation of steam that could occur due to the exothermic nature of
@@ -241,11 +278,13 @@ elemental aluminum is altered by \textless3\% by total mass. Even if the gallium
 and indium in this case participated in the reaction to some degree, the effects
 of their presence would be minimal.
 
+\subsection{Model Implementation}
+
 To determine which reaction is most favorable at given constant temperature and
 pressure conditions, we seek the reaction that minimizes $\Delta_f G(T,p)$.
 Using values for $g_i^0(T)$ given by [NASA] for $Al_{(s)}$, $H_2O_{(l)}$,
 $H_{2(g)}$, $Al(OH)_{3(aq)}$, and $Al_2O_{3(aq)}$ and [oxyhydroxide paper] for
-$AlOOH_{(aq)}$, we computed Gibbs free energy surfaces for each of the three
+$AlO(OH)_{(aq)}$, we computed Gibbs free energy surfaces for each of the three
 candidate aluminum water reactions in MATLAB by evaluating this quantity over a
 grid of 3100 $(T,p)$ points. Because our temperature data was comparatively
 sparse, we iterated over pressures, at every step computing the Gibbs free
@@ -309,7 +348,9 @@ modified transition diagram. It is important to note here that this diagram is
 not a general result but is specific to our method of aluminum activation.
 Different activation methods may yield aluminum which is reactive with steam, in
 which case the diagram in Figure \ref{fig:transitions} should be used for
-applications instead.
+applications instead. (Also talk about how in theory you could superheat water
+past the saturation Temp, but this would be difficult in practice, hence our
+modified transition diagram.)
 
 \begin{figure}
   \centering
@@ -376,31 +417,78 @@ reaction, which is typically marked by a distinct discoloration of the aluminum.
 
 \begin{figure}
   \centering
-  \includegraphics[width=0.9\textwidth]{fig/steam_test_setup}
-  \caption{Test setup for testing aluminum's reactivity with steam.}
+  \includegraphics[width=0.9\textwidth]{fig/steam_test_setup_ss}
+  \caption{Setup for testing aluminum's reactivity with steam.}
   \label{fig:steam_test_setup}
 \end{figure}
 
 \subsection{Validating the Thermodynamics Model}
 
 To validate our thermodynamics model for predicting which aluminum-water
-reaction is most favorable at a given temperature and pressure conditions, we
+reaction is most favorable at given temperature and pressure conditions, we
 performed four reaction experiments at the extremes of our target operating
 range. Two high-pressure tests saw the reaction of aluminum and water in a
 pressure vessel maintained at 10 MPa and at temperatures of 230 \textdegree C
 and 4 \textdegree C. Two atmospheric pressure tests saw the reaction of water
 and aluminum at 100 \textdegree C and at 4 \textdegree C. These operating points
-were chosen so as give us two data points above and below the transition line
-between the $Al(OH)_3$ and $AlOOH$ reaction regimes. Given our 
+were chosen so as give us two data points above and below the curve that
+represents a transition between the $Al(OH)_3$ and $AlOOH$ reaction regimes.
 
-the model presented here in Section \ref{model}, we performed
-several reaction tests at various temperature and pressure combinations and
-characterized the byproducts to determine which reaction most likely proceeded
-for each set of reaction conditions. In total, we ran 5 experiments at the
-points shown in Figure XX (can maybe add this to the reaction transition diagram
-so as to avoid being redundant?). For the high pressure tests, we used the
-reaction setup shown in Figure XX...
+\begin{figure}
+  \centering
+  \includegraphics[width=0.55\textwidth]{fig/hp_apparatus}
+  \caption{Cross section of test apparatus used for reaction experiments at 10
+  MPa: 1) reactor is pre-pressurized with nitrogen gas, 2) pressure transducer
+records and verifies target operating pressure, 3) fuel in an automated hopper
+drops into water in chamber, 4) a pressure relief valve maintains appropriate
+pressure in reactor.}
+  \label{fig:hp_apparatus}
+\end{figure}
 
+For our high pressure experiments, we used the test apparatus shown in Figure
+\ref{fig:hp_apparatus} in order to maintain a constant 10 MPa over the course of
+the reaction. This setup is comprised of stainless steel tubing and Swagelok
+fittings. Nitrogen gas is used to pre-pressurize the reactor and the system
+pressure is maintained via a pressure relief valve. Activated aluminum samples
+are initially held in a tube above the reactor by means of a servo-driven ball
+valve, which enabled us to remotely deliver the samples to the water in the
+reaction tube below. Due to safety considerations, the entire test apparatus was
+placed in a blast chamber away from the experiment operators. For the high
+temperature and pressure experiments, the reactor and sample pre-feeder tubes
+were preheated to the specified temperature of 230 \textdegree C using a
+manually-adjusted resistive heating strip wrapped around the tubes.  Fiberglass
+insulation, not pictured in Figure \ref{fig:hp_apparatus}, was added around the
+heating elements.
+
+In order to perform our high pressure and low temperature experiments, the
+entire test apparatus was placed in a large freezer maintained at 4 \textdegree
+C for the duration of the experiment. The apparatus was pressurized and
+pre-chilled for one hour as added precaution, and again the aluminum samples
+were delivered to the reactor below via remote activation. Given the greatly
+reduced reaction rate of aluminum and water at this low temperature, the
+apparatus was left undisturbed for 48 hours to ensure the reaction would
+proceed to completion. A pressurized tank of nitrogen with a regulator set to 10
+MPa was left with the apparatus to ensure the pressure remained constant over
+this process in the event of any small leaks.
+
+Reaction experiments at atmospheric conditions were more straightforward, as we
+were able to react aluminum and water in a beaker open to the atmosphere. For
+the 100 \textdegree C experiment, we brought water to a boil over a hot plate
+and added our aluminum samples. Due to the phase transition of water at 100
+\textdegree C and it's high latent heat, the system is maintained at 100
+\textdegree C provided that the water continues to boil over the course of the
+reaction. To keep the system cool for our experiment at atmospheric pressure and
+4 \textdegree C, we reacted a small amount of aluminum in an excess of
+pre-chilled water. The glass beaker used for this experiment was additionally
+submerged in a constantly stirred ice bath. A temperature probe placed near the
+reaction site confirmed that the reaction was kept below 4 \textdegree C.
+
+In all cases, the aluminum-water reaction byproducts, which were crucial for
+determining which reaction occurred, were dried at room temperature in a clean
+and uncontaminated fume hood for one week before we analyzed their composition.
+We found this drying step to be crucial, as some analysis techniques like FTIR
+(described further in Section \ref{results}), are highly sensitive to the
+presence of water, consequently skewing our results.
 
 \section{Results}
 \label{results}
@@ -416,6 +504,9 @@ that it is AlOH3 rather than just elemental Al...
 \section{Discussion}
 \label{discussion}
 
+Discuss how the use of Nitrogen gas may throw off results of the experiment.
+This effect is minimal though as it only effects the hydrogen gibbs...
+
 \subsection{Low Reaction Yield at Low Temperature and Pressure}
 
 We observed that the reaction yield was comparatively low for the low temp and
@@ -423,7 +514,7 @@ pressure experiment, as indicated by the overwhelming presence of elemental
 aluminum in the reaction byproducts... This is possibly due to Al not being able
 to fragment to expose new grains to water...
  
-\subsection{Applications Using Transition Diagram}
+\subsection{Applications Using Reaction Regime Transition Diagram}
 
 It is often necessary to choose a reaction regime depending on the constraints
 inherent to specific applications. For example, for power systems using the
