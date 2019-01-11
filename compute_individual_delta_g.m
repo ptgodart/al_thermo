@@ -46,7 +46,7 @@ g_al2o3 = -1 * al2o3_raw_data(:, 5) .* al2o3_raw_data(:, 1) + 1E3*(al2o3_raw_dat
 g_aloh3 = -1 * aloh3_raw_data(:, 5) .* aloh3_raw_data(:, 1) + 1E3*(aloh3_raw_data(1, 6) - aloh3_raw_data(1, 3));
 % (DEAL WITH THIS LATER) g_alooh = -1 * alooh_raw_data(:, 5) .* alooh_raw_data(:, 1) + 1E3*(alooh_raw_data(1, 6) - alooh_raw_data(1, 3));
 g_h2o = -1 * h2o_raw_data(:, 5) .* h2o_raw_data(:, 1) + 1E3*(h2o_raw_data(1, 6) - h2o_raw_data(1, 3));
-g_d2o = -1 * h2o_raw_data(:, 5) .* h2o_raw_data(:, 1) + 1E3*(h2o_raw_data(1, 6)*1.03 - h2o_raw_data(1, 3));%multiply H by factor of 1.03 for deuterium
+g_d2o = -1 * h2o_raw_data(:, 5) .* h2o_raw_data(:, 1) + 1E3*(h2o_raw_data(1, 6)*1.03 - h2o_raw_data(1, 3)); %multiply H by factor of 1.03 for deuterium
 g_h2o_steam = -1 * h2o_steam_raw_data(:, 3) .* h2o_steam_raw_data(:, 1) + 1E3*(h2o_steam_raw_data(1, 4) - h2o_steam_raw_data(1, 2));
 %% Compounds - delta_G(T)
 delta_g_al2o3 = g_al2o3 - 2*g_al - 3/2*g_o2;
@@ -60,8 +60,8 @@ delta_g_h2o_steam = g_h2o_steam - g_h2 - 1/2*g_o2;
 delta_g_al2o3 = delta_g_al2o3 + v_al2o3*(P - P_0);
 delta_g_aloh3 = delta_g_aloh3 + v_aloh3*(P - P_0);
 delta_g_alooh = delta_g_alooh + v_alooh*(P - P_0);
-% delta_g_h2o = delta_g_h2o + v_h2o*(P - P_0); %UNCOMMENT WHEN USING NORMAL WATER
-delta_g_h2o = delta_g_h2o_steam + R*h2o_steam_raw_data(:,1)*log(P/P_0); %ADDED FOR STEAM ANALYSIS. COMMENT FOR NORMAL WATER
+delta_g_h2o = delta_g_h2o + v_h2o*(P - P_0); %UNCOMMENT WHEN USING NORMAL WATER
+% delta_g_h2o = delta_g_h2o_steam + R*h2o_steam_raw_data(:,1)*log(P/P_0); %ADDED FOR STEAM ANALYSIS. COMMENT FOR NORMAL WATER
 
 %% Elements - delta_G(T)
 delta_g_al = zeros(size(T));
@@ -69,6 +69,7 @@ delta_g_h2 = zeros(size(T));
 % Apply effect of pressure
 delta_g_al = delta_g_al + v_al*(P - P_0);
 delta_g_h2 = delta_g_h2 + R*h2_raw_data(:,1)*log(P/P_0);
+
 
 %% Reactions
 % REACTION 1: 2Al + 6H2O ==> 2Al(OH)3 + 3H2
