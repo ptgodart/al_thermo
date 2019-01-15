@@ -1,4 +1,4 @@
-A = [...  %[2 Theta (degrees), Intensity (counts)] XRD values from lehigh testing for 1 atm 100 C BB
+XRD_highTlowP = [...  %[2 Theta (degrees), Intensity (counts)] XRD values from lehigh testing for 1 atm 100 C BB
 10.3	12
 11.9	26
 13.6	108
@@ -39,6 +39,4 @@ A = [...  %[2 Theta (degrees), Intensity (counts)] XRD values from lehigh testin
 88.3	7
 89.7	11];
 
-bar(A(:,1),A(:,2),.1);
-xlabel('2 Theta (Degrees)')
-ylabel('Intensity (Counts)')
+
