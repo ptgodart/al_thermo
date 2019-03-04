@@ -10,7 +10,7 @@ o2_raw_data = csvread('o2_nasa_raw.csv', 2, 0);
 % H_alooh = [-887.219 -996.389 -996.415 -996.846 -997.269 -997.367 -997.365 -997.058 -996.990]'; % kJ/mol
 F_H_alooh = [-4.7715 0 0.335 8.553 15.459 21.375 26.511 31.017 35.001]; % J/mol-K (from Hemingway, 1991)
 T_alooh = [273.15 298.15 300 350 400 450 500 550 600]; % K
-H_alooh_298 = -615.3E3;
+H_alooh_298 = -996.39E3;
 H_alooh = (F_H_alooh .* T_alooh + H_alooh_298)*1E-3;
 
 T_nasa = h2o_raw_data(:, 1);
