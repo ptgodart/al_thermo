@@ -6,7 +6,7 @@
 T_rxn = 473.15;         % K
 T_0 = 298.15;           % K
 %P_rxn = 137895.146;
-P_rxn = 6.9E+6;         % Pa
+P_rxn = 0.1E+6;         % Pa
 P_0 = 101325;           % Pa
 
 R = 8.314;              % J/(mol K)
@@ -55,7 +55,7 @@ delta_g_aloh3 = g_aloh3 - g_al - 3/2*g_o2 - 3/2*g_h2;
 delta_g_alooh = 1E3.*[-917.916 -904.720 -891.595 -878.351 -865.153 -851.917 -838.740]'; % From Hemingway et al, 1991
 T_alooh = [300 350 400 450 500 550 600]';
 delta_g_h2o = g_h2o - g_h2 - 1/2*g_o2; 
-delta_g_h2o_steam = g_h2o_steam - g_h2 - 1/2*g_o2; 
+delta_g_h2o_steam = g_h2o_steam - g_h2 - 1/2*g_o2;
 % Apply effect of pressure over P range
 delta_g_al2o3 = delta_g_al2o3 + v_al2o3*(P - P_0);
 delta_g_aloh3 = delta_g_aloh3 + v_aloh3*(P - P_0);
@@ -69,7 +69,6 @@ delta_g_h2 = zeros(size(T));
 % Apply effect of pressure
 delta_g_al = delta_g_al + v_al*(P - P_0);
 delta_g_h2 = delta_g_h2 + R*h2_raw_data(:,1)*log(P/P_0);
-
 
 %% Reactions
 % REACTION 1: 2Al + 6H2O ==> 2Al(OH)3 + 3H2
@@ -118,6 +117,8 @@ rxn_2_3_intersection = rxn_2_3_intersection(2);
 delta_g_1_2_transitions = zeros(size(P));
 delta_g_1_3_transitions = zeros(size(P));
 delta_g_2_3_transitions = zeros(size(P));
+T_table = [0 25 50 75 100 125 150 175 200 225 250 275 300];
+g_table_output = zeros(numel(T_table),numel(P),3);
 for p = 1:numel(P)
     % Polyfit
     delta_g_1_coeffs = polyfit(T, delta_g_1(:, p), 2);
@@ -130,7 +131,19 @@ for p = 1:numel(P)
     delta_g_1_3_transitions(p) = delta_g_1_3_intersection(2);
     delta_g_2_3_intersection = roots(delta_g_2_coeffs - delta_g_3_coeffs);
     delta_g_2_3_transitions(p) = delta_g_2_3_intersection(2);
+    % Fill in output table for paper
+    g_table_output(:, p, 1) = polyval(delta_g_1_coeffs, T_table);
+    g_table_output(:, p, 2) = polyval(delta_g_2_coeffs, T_table);
+    g_table_output(:, p, 3) = polyval(delta_g_3_coeffs, T_table);
 end
+
+%% For paper table
+% disp(P(1:10:end))
+% disp([T_table' g_table_output(:, 1:10:end, 1)*1E-3]);
+% disp(P(1:10:end))
+% disp([T_table' g_table_output(:, 1:10:end, 2)*1E-3]);
+% disp(P(1:10:end))
+% disp([T_table' g_table_output(:, 1:10:end, 3)*1E-3]);
 
 %% Plotting
 figure(1); clf;
