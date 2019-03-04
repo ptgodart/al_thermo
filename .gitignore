@@ -3,3 +3,4 @@
 **/*.latexmain
 paper/manuscript/build
 **/*.DS_STORE
+paper
