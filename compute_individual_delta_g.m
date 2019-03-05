@@ -117,8 +117,9 @@ rxn_2_3_intersection = rxn_2_3_intersection(2);
 delta_g_1_2_transitions = zeros(size(P));
 delta_g_1_3_transitions = zeros(size(P));
 delta_g_2_3_transitions = zeros(size(P));
-T_table = [0 25 50 75 100 125 150 175 200 225 250 275 300];
+T_table = [0 25 50 75 100 125 150 175 200 225 250 275 300] + 273.15;
 g_table_output = zeros(numel(T_table),numel(P),3);
+g_table_1 = zeros(numel(T_table), numel(P));
 for p = 1:numel(P)
     % Polyfit
     delta_g_1_coeffs = polyfit(T, delta_g_1(:, p), 2);
@@ -132,18 +133,18 @@ for p = 1:numel(P)
     delta_g_2_3_intersection = roots(delta_g_2_coeffs - delta_g_3_coeffs);
     delta_g_2_3_transitions(p) = delta_g_2_3_intersection(2);
     % Fill in output table for paper
-    g_table_output(:, p, 1) = polyval(delta_g_1_coeffs, T_table);
-    g_table_output(:, p, 2) = polyval(delta_g_2_coeffs, T_table);
-    g_table_output(:, p, 3) = polyval(delta_g_3_coeffs, T_table);
+    g_table_output(:, p, 1) = polyval(delta_g_1_coeffs, T_table)';
+    g_table_output(:, p, 2) = polyval(delta_g_2_coeffs, T_table)';
+    g_table_output(:, p, 3) = polyval(delta_g_3_coeffs, T_table)';
 end
 
 %% For paper table
-% disp(P(1:10:end))
-% disp([T_table' g_table_output(:, 1:10:end, 1)*1E-3]);
-% disp(P(1:10:end))
-% disp([T_table' g_table_output(:, 1:10:end, 2)*1E-3]);
-% disp(P(1:10:end))
-% disp([T_table' g_table_output(:, 1:10:end, 3)*1E-3]);
+disp(P(1:10:end))
+disp([T_table'-273.15 g_table_output(:, 1:10:end, 1)*1E-3]);
+disp(P(1:10:end))
+disp([T_table'-273.15 g_table_output(:, 1:10:end, 2)*1E-3]);
+disp(P(1:10:end))
+disp([T_table'-273.15 g_table_output(:, 1:10:end, 3)*1E-3]);
 
 %% Plotting
 figure(1); clf;
@@ -171,15 +172,24 @@ ylabel('Extrapolated Gibbs Free Energy [J/mol-ºC]', 'FontSize', 14);
 title(['Extrapolated Gibbs Free Energy For Al-Water Reactions at ' num2str(P(P_index)) ' Pa'], 'FontSize', 16);
 % Plot surface
 figure(3); clf;
-hold on;
-surf_1 = surf(P,T-273.15,delta_g_1);
-surf_2 = surf(P,T_alooh-273.15,delta_g_2);
-surf_3 = surf(P,T-273.15,delta_g_3);
-xlabel('Pressure', 'FontSize', 14);
+axes1 = axes;
+hold(axes1,'on');
+surf_1 = surf(P/1E6,T-273.15,delta_g_1/1E3, 'DisplayName','Al(OH)_3',...
+    'FaceColor',[0 0.447058826684952 0.74117648601532]);
+surf_2 = surf(P/1E6,T_alooh-273.15,delta_g_2/1E3, 'DisplayName','AlOOH','FaceColor',[1 0 0]);
+surf_3 = surf(P/1E6,T-273.15,delta_g_3/1E3, 'DisplayName','Al_2O_3','FaceColor',[1 1 0]);
+xlabel('Pressure [MPa]', 'FontSize', 14);
 ylabel('Temperature [ºC]', 'FontSize', 14);
-zlabel('Gibbs Free Energy', 'FontSize', 14);
-title('Gibbs Free Energy For Al-Water Reactions Over Operating Range', 'FontSize', 16);
-legend('Al(OH)3', 'AlOOH', 'Al2O3');
+zlabel('Gibbs Free Energy [kJ/mol]', 'FontSize', 14);
+title('Gibbs Free Energy For Al-Water Reactions Over Operating Range');
+view(axes1,[64 26.7999999999999]);
+box(axes1,'on');
+grid(axes1,'on');
+% Set the remaining axes properties
+set(axes1,'FontSize',16);
+% Create legend
+legend1 = legend(axes1,'show');
+set(legend1,'FontSize',16,'Location','northeast');
 % Plot transitions
 figure(4); clf;
 hold on;
