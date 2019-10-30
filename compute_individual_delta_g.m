@@ -17,11 +17,17 @@ v_al2o3 = 1/3950;       % m^3/kg
 v_h2o = 1/1000;         % m^3/kg
 v_al = 1/2700;          % m^3/kg
 
+M_al = 26.9815E-3;      % kg/mol
+M_alooh = 59.988E-3;    % kg/mol
+M_aloh3 = 78E-3;        % kg/mol
+M_al2o3 = 101.96E-3;    % kg/mol
+M_h2o = 18.01528E-3;    % kg/mol
+
 %% For pressure iteration
 P_start = P_0;
 P_end = 1E+7; % Pa
 P_steps = 100;
-P = linspace(P_start, P_end, P_steps);
+P = linspace(P_start, P_end, P_steps); % Pa
 
 %% Data
 addpath('data');
@@ -33,59 +39,57 @@ h2o_steam_raw_data = csvread('h2o_steam_nasa_raw.csv', 2, 0);
 aloh3_raw_data = csvread('aloh3_nasa_raw.csv', 2, 0);
 % (DEAL WITH THIS LATER: Issue is that NASA data is only for gas phase HALO2) alooh_raw_data = csvread('alooh_nasa_raw.csv', 2, 0);
 al2o3_raw_data = csvread('al2o3_nasa_raw.csv', 2, 0);
-T = al_raw_data(:, 1);
+T = al_raw_data(:, 1); % K
 
 %% Base elements - G(T)
-% Column 6 is -(G-H298)/T, so convert
-g_al = -1 * al_raw_data(:, 5) .* al_raw_data(:, 1) + 1E3*(al_raw_data(1, 6) - al_raw_data(1, 3));
-g_h2 = -1 * h2_raw_data(:, 5) .* h2_raw_data(:, 1) + 1E3*(h2_raw_data(1, 6) - h2_raw_data(1, 3));
-g_o2 = -1 * o2_raw_data(:, 5) .* o2_raw_data(:, 1) + 1E3*(o2_raw_data(1, 6) - o2_raw_data(1, 3));
+% Column 6 is -(G-H298)/T, so convert: g [J/mol] = -1 * Value [J/mol-K] * T [K] + 1000*(H [kJ/mol] - (H [kJ/mol] - H298 [kJ/mol])) 
+g_al = -1 * al_raw_data(:, 5) .* al_raw_data(:, 1) + 1E3*(al_raw_data(1, 6) - al_raw_data(1, 3)); % J/mol
+g_h2 = -1 * h2_raw_data(:, 5) .* h2_raw_data(:, 1) + 1E3*(h2_raw_data(1, 6) - h2_raw_data(1, 3)); % J/mol
+g_o2 = -1 * o2_raw_data(:, 5) .* o2_raw_data(:, 1) + 1E3*(o2_raw_data(1, 6) - o2_raw_data(1, 3)); % J/mol
 
 %% Compounds - G(T) 
-g_al2o3 = -1 * al2o3_raw_data(:, 5) .* al2o3_raw_data(:, 1) + 1E3*(al2o3_raw_data(1, 6) - al2o3_raw_data(1, 3));
-g_aloh3 = -1 * aloh3_raw_data(:, 5) .* aloh3_raw_data(:, 1) + 1E3*(aloh3_raw_data(1, 6) - aloh3_raw_data(1, 3));
-% (DEAL WITH THIS LATER) g_alooh = -1 * alooh_raw_data(:, 5) .* alooh_raw_data(:, 1) + 1E3*(alooh_raw_data(1, 6) - alooh_raw_data(1, 3));
-g_h2o = -1 * h2o_raw_data(:, 5) .* h2o_raw_data(:, 1) + 1E3*(h2o_raw_data(1, 6) - h2o_raw_data(1, 3));
-g_d2o = -1 * h2o_raw_data(:, 5) .* h2o_raw_data(:, 1) + 1E3*(h2o_raw_data(1, 6)*1.03 - h2o_raw_data(1, 3)); %multiply H by factor of 1.03 for deuterium
-g_h2o_steam = -1 * h2o_steam_raw_data(:, 3) .* h2o_steam_raw_data(:, 1) + 1E3*(h2o_steam_raw_data(1, 4) - h2o_steam_raw_data(1, 2));
+g_al2o3 = -1 * al2o3_raw_data(:, 5) .* al2o3_raw_data(:, 1) + 1E3*(al2o3_raw_data(1, 6) - al2o3_raw_data(1, 3)); % J/mol
+g_aloh3 = -1 * aloh3_raw_data(:, 5) .* aloh3_raw_data(:, 1) + 1E3*(aloh3_raw_data(1, 6) - aloh3_raw_data(1, 3)); % J/mol
+g_h2o = -1 * h2o_raw_data(:, 5) .* h2o_raw_data(:, 1) + 1E3*(h2o_raw_data(1, 6) - h2o_raw_data(1, 3)); % J/mol
+g_d2o = -1 * h2o_raw_data(:, 5) .* h2o_raw_data(:, 1) + 1E3*(h2o_raw_data(1, 6)*1.03 - h2o_raw_data(1, 3)); % J/mol, multiply H by factor of 1.03 for deuterium
+g_h2o_steam = -1 * h2o_steam_raw_data(:, 3) .* h2o_steam_raw_data(:, 1) + 1E3*(h2o_steam_raw_data(1, 4) - h2o_steam_raw_data(1, 2)); % J/mol
 %% Compounds - delta_G(T)
-delta_g_al2o3 = g_al2o3 - 2*g_al - 3/2*g_o2;
-delta_g_aloh3 = g_aloh3 - g_al - 3/2*g_o2 - 3/2*g_h2;
-% (DEAL WITH THIS LATER) delta_g_alooh = g_alooh - g_al - g_o2 - 1/2*g_h2;
-delta_g_alooh = 1E3.*[-917.916 -904.720 -891.595 -878.351 -865.153 -851.917 -838.740]'; % From Hemingway et al, 1991
-T_alooh = [300 350 400 450 500 550 600]';
-delta_g_h2o = g_h2o - g_h2 - 1/2*g_o2; 
-delta_g_h2o_steam = g_h2o_steam - g_h2 - 1/2*g_o2;
+delta_g_al2o3 = g_al2o3 - 2*g_al - 3/2*g_o2; % J/mol
+delta_g_aloh3 = g_aloh3 - g_al - 3/2*g_o2 - 3/2*g_h2; % J/mol
+delta_g_alooh = 1E3.*[-917.916 -904.720 -891.595 -878.351 -865.153 -851.917 -838.740]'; % J/mol, From Hemingway et al, 1991
+T_alooh = [300 350 400 450 500 550 600]'; % K
+delta_g_h2o = g_h2o - g_h2 - 1/2*g_o2; % J/mol
+delta_g_h2o_steam = g_h2o_steam - g_h2 - 1/2*g_o2; % J/mol
 % Apply effect of pressure over P range
-delta_g_al2o3 = delta_g_al2o3 + v_al2o3*(P - P_0);
-delta_g_aloh3 = delta_g_aloh3 + v_aloh3*(P - P_0);
-delta_g_alooh = delta_g_alooh + v_alooh*(P - P_0);
-delta_g_h2o = delta_g_h2o + v_h2o*(P - P_0); %UNCOMMENT WHEN USING NORMAL WATER
-% delta_g_h2o = delta_g_h2o_steam + R*h2o_steam_raw_data(:,1)*log(P/P_0); %ADDED FOR STEAM ANALYSIS. COMMENT FOR NORMAL WATER
+delta_g_al2o3 = delta_g_al2o3 + v_al2o3*(P - P_0)*M_al2o3; % J/mol
+delta_g_aloh3 = delta_g_aloh3 + v_aloh3*(P - P_0)*M_aloh3; % J/mol
+delta_g_alooh = delta_g_alooh + v_alooh*(P - P_0)*M_alooh; % J/mol
+delta_g_h2o = delta_g_h2o + v_h2o*(P - P_0)*M_h2o; % J/mol (UNCOMMENT WHEN USING NORMAL WATER)
+% delta_g_h2o = delta_g_h2o_steam + R*h2o_steam_raw_data(:,1)*log(P/P_0); % ADDED FOR STEAM ANALYSIS. COMMENT FOR NORMAL WATER
 
 %% Elements - delta_G(T)
 delta_g_al = zeros(size(T));
 delta_g_h2 = zeros(size(T));
 % Apply effect of pressure
-delta_g_al = delta_g_al + v_al*(P - P_0);
-delta_g_h2 = delta_g_h2 + R*h2_raw_data(:,1)*log(P/P_0);
+delta_g_al = delta_g_al + v_al*(P - P_0)*M_al; % J/mol
+delta_g_h2 = delta_g_h2 + R*h2_raw_data(:,1)*log(P/P_0); % J/mol
 
 %% Reactions
 % REACTION 1: 2Al + 6H2O ==> 2Al(OH)3 + 3H2
-delta_g_1 = 2*delta_g_aloh3 + 3*delta_g_h2 - 2*delta_g_al - 6*delta_g_h2o;
+delta_g_1 = 2*delta_g_aloh3 + 3*delta_g_h2 - 2*delta_g_al - 6*delta_g_h2o; % J/mol reactant
 % REACTION 2: 2Al + 4H2O ==> 2AlO(OH) + 3H2
 delta_g_2 = zeros(numel(T_alooh), numel(P));
 for i = 1:numel(T_alooh) % Deal with fact that alooh data is sparse
     temp = T_alooh(i);
     for j = 1:numel(T)
         if T(j) == temp
-            delta_g_2(i, :) = 2*delta_g_alooh(i, :) + 3*delta_g_h2(j, :) - 2*delta_g_al(j, :) - 4*delta_g_h2o(j, :);
+            delta_g_2(i, :) = 2*delta_g_alooh(i, :) + 3*delta_g_h2(j, :) - 2*delta_g_al(j, :) - 4*delta_g_h2o(j, :); % J/mol reactant
             break;
         end
     end
 end
 % REACTION 3: 2Al + 3H2O ==> Al2O3 + 3H2
-delta_g_3 = delta_g_al2o3 + 3*delta_g_h2 - 2*delta_g_al - 3*delta_g_h2o;
+delta_g_3 = delta_g_al2o3 + 3*delta_g_h2 - 2*delta_g_al - 3*delta_g_h2o; % J/mol reactant
 
 %% Getting more data
 % Fit each delta_g_n with 2nd order polynomial
